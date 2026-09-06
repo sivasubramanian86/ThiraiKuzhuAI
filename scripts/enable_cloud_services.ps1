@@ -1,14 +1,14 @@
 # PowerShell script to enable GCP services and restore Cloud Run capacity
 param (
-    [string]$ProjectId = $(gcloud config get-value project 2>$null; if (-not $?) { "genai-apac-2026-491004" }),
+    [string]$ProjectId = "genai-apac-2026-491004",
     [string]$Region = "us-central1",
     [string]$ServiceName = "thirai-kuzhu-ai"
 )
 
-Write-Host "⚡ [ACTIVATION] Enabling services and unfreezing Cloud Run for project: $ProjectId" -ForegroundColor Cyan
+Write-Host "[ACTIVATION] Enabling services and unfreezing Cloud Run for project: $ProjectId" -ForegroundColor Cyan
 
 # 1. Enable required APIs
-Write-Host "  🔓 Enabling Cloud Run, Vertex AI, Translation, TTS, and Secret Manager APIs..." -ForegroundColor Yellow
+Write-Host "  [API] Enabling Cloud Run, Vertex AI, Translation, TTS, and Secret Manager APIs..." -ForegroundColor Yellow
 $servicesToEnable = @(
     "run.googleapis.com",
     "aiplatform.googleapis.com",
@@ -26,7 +26,7 @@ foreach ($svc in $servicesToEnable) {
 try {
     $serviceCheck = gcloud run services describe $ServiceName --project=$ProjectId --region=$Region 2>$null
     if ($serviceCheck) {
-        Write-Host "  🚀 Restoring Cloud Run capacity for '$ServiceName' (scale-to-zero active)..." -ForegroundColor Green
+        Write-Host "  [DEPLOY] Restoring Cloud Run capacity for '$ServiceName' (scale-to-zero active)..." -ForegroundColor Green
         gcloud run services update $ServiceName `
             --project=$ProjectId `
             --region=$Region `
@@ -34,12 +34,12 @@ try {
             --max-instances=3 `
             --quiet
         $serviceUrl = gcloud run services describe $ServiceName --project=$ProjectId --region=$Region --format="value(status.url)"
-        Write-Host "  ✓ Cloud Run service live at: $serviceUrl" -ForegroundColor Cyan
+        Write-Host "  [READY] Cloud Run service live at: $serviceUrl" -ForegroundColor Cyan
     } else {
-        Write-Host "  ℹ️ Cloud Run service not deployed yet. Run: .\scripts\deploy_cloudrun.ps1" -ForegroundColor Gray
+        Write-Host "  [INFO] Cloud Run service not deployed yet. Run: .\scripts\deploy_cloudrun.ps1" -ForegroundColor Gray
     }
 } catch {
-    Write-Host "  ⚠️ Error checking Cloud Run service: $_" -ForegroundColor Yellow
+    Write-Host "  [WARNING] Error checking Cloud Run service: $_" -ForegroundColor Yellow
 }
 
-Write-Host "`n🎉 [SYSTEM READY] Thirai Kuzhu AI is activated for live hackathon evaluation!" -ForegroundColor Green
+Write-Host "`n[SYSTEM READY] Thirai Kuzhu AI is activated for live hackathon evaluation!" -ForegroundColor Green
