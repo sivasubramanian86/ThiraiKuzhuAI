@@ -35,7 +35,7 @@ gcloud run deploy "${SERVICE_NAME}" \
   --allow-unauthenticated \
   --service-account="thirai-kuzhu-orchestrator-sa@${PROJECT_ID}.iam.gserviceaccount.com" \
   --set-env-vars="ENV=production,GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=${REGION},PRIMARY_MODEL=gemini-3.8-flash-001,DIRECTOR_MODEL=gemini-3.8-pro-001" \
-  --set-secrets="GRAFANA_TOKEN=projects/${PROJECT_ID}/secrets/grafana-cloud-mcp-token:latest" \
+  --set-secrets="GRAFANA_TOKEN=grafana-cloud-mcp-token:latest" \
   --memory=1Gi \
   --cpu=1 \
   --min-instances=0 \

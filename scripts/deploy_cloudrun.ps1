@@ -31,7 +31,7 @@ gcloud builds submit --project=$ProjectId --tag=$ImageTag backend/
 Write-Host "[DEPLOY] Deploying to Cloud Run with scale-to-zero..." -ForegroundColor Green
 $saEmail = "thirai-kuzhu-orchestrator-sa@$ProjectId.iam.gserviceaccount.com"
 $envVars = "ENV=production,GOOGLE_CLOUD_PROJECT=$ProjectId,GOOGLE_CLOUD_LOCATION=$Region,PRIMARY_MODEL=gemini-3.8-flash-001,DIRECTOR_MODEL=gemini-3.8-pro-001"
-$secretVar = "GRAFANA_TOKEN=projects/$ProjectId/secrets/grafana-cloud-mcp-token:latest"
+$secretVar = "GRAFANA_TOKEN=grafana-cloud-mcp-token:latest"
 
 gcloud run deploy $ServiceName `
   --project=$ProjectId `
