@@ -35,6 +35,15 @@ from src.models.incident import (
     StudioProject,
     TechnicalTelemetry,
 )
+from src.services.multimodal_cinema_service import (
+    CinematicReelAssembly,
+    LyriaScoreGenerationRequest,
+    LyriaScoreGenerationResult,
+    MultimodalCinemaService,
+    MultimodalSceneAsset,
+    VeoVideoGenerationRequest,
+    VeoVideoGenerationResult,
+)
 from src.tools.cinema_eval_tools import (
     compute_all_cinematic_indices,
     evaluate_agent_response_rubric,
@@ -64,10 +73,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Singleton Orchestrator, Translation, and Voice Instances
+# Singleton Orchestrator, Translation, Voice, and Generative Cinema Instances
 orchestrator = OrchestratorAgent()
 translation_service = CinemaTranslationService()
 voice_service = CinemaVoiceService()
+cinema_service = MultimodalCinemaService()
 
 # In-Memory Sample Incident Store (Replaced by Firestore/BigQuery in Production)
 MOCK_INCIDENTS: dict[str, StudioIncident] = {
@@ -414,6 +424,37 @@ async def synthesize_speech(payload: dict[str, Any]) -> dict[str, Any]:
     lang = payload.get("language_code", "en")
     speaker = payload.get("speaker_name", "DirectorOps")
     return await voice_service.synthesize_walkie_talkie_alert(script, lang, speaker)
+
+
+@app.post("/api/cinema/multimodal/analyze")
+def analyze_multimodal_scene(asset: MultimodalSceneAsset) -> dict[str, Any]:
+    """Analyzes screenplay, video frames, and audio stems for cinematic continuity."""
+    return cinema_service.analyze_multimodal_assets(asset)
+
+
+@app.post("/api/cinema/veo/generate-scene")
+def generate_veo_scene(request: VeoVideoGenerationRequest) -> VeoVideoGenerationResult:
+    """Synthesizes high-fidelity cinematic video sequence via Google DeepMind Veo 2."""
+    return cinema_service.generate_veo_video_scene(request)
+
+
+@app.post("/api/cinema/lyria/generate-score")
+def generate_lyria_music_score(
+    request: LyriaScoreGenerationRequest,
+) -> LyriaScoreGenerationResult:
+    """Synthesizes original cinematic orchestral score and Dolby Atmos foley via Lyria."""
+    return cinema_service.generate_lyria_score(request)
+
+
+@app.post("/api/cinema/assemble-reel")
+def assemble_cinema_reel(payload: dict[str, Any]) -> CinematicReelAssembly:
+    """Assembles generated Veo shots and Lyria audio into a unified cinematic film master."""
+    title = payload.get("movie_title", "Untitled Cinema Master")
+    raw_shots = payload.get("veo_shots", [])
+    shots = [VeoVideoGenerationResult(**s) if isinstance(s, dict) else s for s in raw_shots]
+    raw_score = payload.get("lyria_score")
+    score = LyriaScoreGenerationResult(**raw_score) if isinstance(raw_score, dict) else None
+    return cinema_service.assemble_movie_reel(title, shots, score)
 
 
 # Mount static frontend assets for web browser visualization and judge evaluation

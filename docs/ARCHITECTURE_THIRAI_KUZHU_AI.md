@@ -25,9 +25,11 @@ Traditional SRE alarms report: `504 Gateway Timeout`, `OOMKilled`, or `PacketLos
 
 ## 2. 100% Score System Component Topology
 
+![Thirai Kuzhu AI System Architecture](assets/architecture_diagram.jpg)
+
 ```
 +------------------------------------------------------------------------------------------------------------------------+
-|                                      DIRECTOR'S CUT CONSOLE (Next.js 15 / React 18)                                    |
+|                                      DIRECTOR'S CUT CONSOLE (React 19 / Vite 6)                                        |
 |  [Director HUD]  <-->  [Live Walkie-Talkie SSE Stream]  <-->  [Embedded Grafana Panels]  <-->  [22-Language i18n Switch] |
 +------------------------------------------------------------------------------------------------------------------------+
                                                        |
@@ -63,15 +65,15 @@ Traditional SRE alarms report: `504 Gateway Timeout`, `OOMKilled`, or `PacketLos
             |                                           |                                             |
             v                                           v                                             v
 +------------------------+                 +------------------------+                    +-------------------------+
-|    ADVANCED RAG TIER   |                 |   GRAFANA CLOUD MCP    |                    |  AI OBSERVABILITY TIER  |
+| MULTIMODAL CINEMA TIER |                 |   GRAFANA CLOUD MCP    |                    |  AI OBSERVABILITY TIER  |
 |                        |                 |                        |                    |                         |
-| • Graph RAG:           |                 | • Streamable HTTP      |                    | • OpenLIT SDK           |
-|   Cinematic Knowledge  |                 |   https://mcp.grafana  |                    | • OpenTelemetry OTLP    |
-|   Graph (Scene-Shot-   |                 | • PromQL (Mimir)       |                    | • Token Cost Tracking   |
-|   Asset-Node)          |                 | • LogQL (Loki)         |                    | • Sub-second Latency    |
-| • Agentic RAG:         |                 | • TraceQL (Tempo)      |                    | • Tool Trace Heatmaps   |
-|   Cloud SQL pgvector   |                 | • Alert Rules & IRM    |                    | • LLM-as-a-Judge (CRI)  |
-|   (SMPTE/DCI Specs)    |                 | • Live Annotations API |                    |                         |
+| • DeepMind Veo 2:      |                 | • Streamable HTTP      |                    | • OpenLIT SDK           |
+|   4K/8K Scene Synth    |                 |   https://mcp.grafana  |                    | • OpenTelemetry OTLP    |
+| • Google Lyria:        |                 | • PromQL (Mimir)       |                    | • Token Cost Tracking   |
+|   Atmos Leitmotif/Score|                 | • LogQL (Loki)         |                    | • Sub-second Latency    |
+| • Graph RAG:           |                 | • TraceQL (Tempo)      |                    | • Tool Trace Heatmaps   |
+|   Cinematic Knowledge  |                 | • Alert Rules & IRM    |                    | • LLM-as-a-Judge (CRI)  |
+| • Cloud SQL pgvector   |                 | • Live Annotations API |                    |                         |
 +------------------------+                 +------------------------+                    +-------------------------+
             |                                           |                                             |
             +-------------------------------------------+---------------------------------------------+
@@ -82,6 +84,28 @@ Traditional SRE alarms report: `504 Gateway Timeout`, `OOMKilled`, or `PacketLos
 |  Cloud Run (Serverless) • Cloud Firestore (State) • BigQuery (Incident History) • Secret Manager • KMS • VPC-SC • WIF  |
 +------------------------------------------------------------------------------------------------------------------------+
 ```
+
+---
+
+## 2.1 Autonomous Filmmaking & Screen Crew Workflow
+
+![Thirai Kuzhu AI Crew Workflow Pipeline](assets/crew_workflow_diagram.jpg)
+
+The autonomous filmmaking lifecycle orchestrates seamless coordination between human creators and specialized AI agents:
+1. **Screenplay Ingestion**: Multimodal scene prompts, camera motion cues, lighting parameters, and acoustic references are ingested.
+2. **Agentic Delegation**: Master `DirectorOps` assigns specific tasks to domain crews (VFX, Stunts, Sound, Animation).
+3. **Generative Video Synthesis (DeepMind Veo 2)**: Synthesizes high-resolution 4K/8K video shots adhering to camera framing, lighting styles, and continuity.
+4. **Adaptive Score & Spatial Foley (Google Lyria)**: Generates responsive orchestral leitmotifs and Dolby Atmos 7.1.4 stems matched to scene emotion and beats.
+5. **Continuous Pipeline Observability**: Hosted Grafana Cloud MCP monitors render clusters, transcode latencies, and token budgets.
+6. **Master Cinema Assembly**: Stitches video reels, spatial audio, and localized multi-lingual subtitle tracks into release-ready packages.
+
+---
+
+## 2.2 Director's Cut Console HUD
+
+![Director's Cut Console UI](assets/directors_console_ui.jpg)
+
+The high-tech glassmorphism HUD unifies generative preview monitors, real-time SRE telemetry gauges, and localized production walkie-talkie communication.
 
 ---
 

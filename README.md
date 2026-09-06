@@ -9,7 +9,9 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-19.0%2B-61DAFB.svg)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.2%2B-646CFF.svg)](https://vitejs.dev/)
-[![Tests Coverage](https://img.shields.io/badge/Coverage-100%25%20(38%2F38)-brightgreen.svg)](backend/pyproject.toml)
+[![Poetry](https://img.shields.io/badge/Poetry-2.4%2B-blueviolet.svg)](https://python-poetry.org/)
+[![uv](https://img.shields.io/badge/uv-0.9%2B-ff69b4.svg)](https://astral.sh/uv)
+[![Tests Coverage](https://img.shields.io/badge/Coverage-100%25%20(81%2F81)-brightgreen.svg)](backend/pyproject.toml)
 [![Security](https://img.shields.io/badge/Bandit-Passing%20(0%20issues)-brightgreen.svg)](backend/pyproject.toml)
 [![Grafana MCP](https://img.shields.io/badge/Grafana%20Cloud-MCP%20Streamable%20HTTP-F46800.svg)](https://mcp.grafana.com/mcp)
 [![Google Cloud Run](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run%20Gen2-4285F4.svg)](infra/cloudrun.yaml)
@@ -20,12 +22,17 @@
 
 In the modern blockbuster era, films do not fail because of bad scripts—they fail because of broken pipelines. When a Pan-Indian midnight premiere drops and CDN 504 errors surge, engineers see raw error codes, but the creative team sees hundreds of thousands of disappointed fans and millions of dollars in box-office bleed.
 
-**Thirai Kuzhu AI** (Tamil: *திரை குழு* — "Screen Crew") is an autonomous, multi-agent cinema operations and SRE platform. It bridges the gap between creative storytelling and distributed systems telemetry by translating Prometheus metrics (Mimir), Loki logs, and Tempo traces into actionable on-set director directives across 9 specialized studio departments and 6 global cinema tracks (Action/Stunts, Animation/Sakuga, Wuxia/Martial Arts, Epics, Neo-Noir, and Masala).
+**Thirai Kuzhu AI** (Tamil: *திரை குழு* — "Screen Crew") is an autonomous, multi-agent cinema operations, multimodal generation, and SRE platform. It acts as a complete virtual movie studio crew:
+1. **Autonomous Filmmaking & Multimodal Generation**: Ingests screenplay text, lighting keyframes, and acoustic stems to generate 4K/8K photorealistic scene sequences via **Google DeepMind Veo 2** and synchronized symphonic scores with Dolby Atmos Foley via **Google Lyria**.
+2. **Cinematic Observability**: Bridges creative production and cloud infrastructure by translating Prometheus metrics (Mimir), Loki logs, and Tempo traces into on-set director directives across 9 specialized studio departments and 6 global cinema tracks (Action/Stunts, Animation/Sakuga, Wuxia/Martial Arts, Epics, Neo-Noir, and Masala).
 
 ---
 
-## 📐 System Architecture
+## 📐 System Architecture & Visual Topology
 
+![Thirai Kuzhu AI System Architecture](docs/assets/architecture_diagram.jpg)
+
+### Core Architecture Flow
 ```mermaid
 flowchart TB
     subgraph ClientLayer["Director's Cut Console (Frontend)"]
@@ -49,6 +56,13 @@ flowchart TB
         SakugaOps["AnimationSakugaOps (Stepped Render Queues)"]
     end
 
+    subgraph MultimodalCinema["Generative Cinema Studio (DeepMind Veo 2 & Lyria)"]
+        MultimodalIngest["Multimodal Ingestion (Script + Visuals + Audio Stems)"]
+        VeoEngine["Google DeepMind Veo 2 (4K/8K Generative Scene Engine)"]
+        LyriaEngine["Google Lyria (Adaptive Orchestral Leitmotif & Dolby Atmos Foley)"]
+        ReelAssembler["Cinema Master Reel Assembler (Director Approved)"]
+    end
+
     subgraph RAGLayer["Cinematic RAG & Knowledge Services"]
         GraphRAG["Cinematic Knowledge Graph (Scene <-> Shot <-> Asset <-> Compute Node)"]
         SMPTE_RAG["SMPTE / DCI Manuals (Cloud SQL pgvector)"]
@@ -67,6 +81,8 @@ flowchart TB
     SSE_Client --> Routes
     Routes --> DirectorOps
     DirectorOps --> ProducerOps & OTTOps & MartialArtsOps & SakugaOps
+    DirectorOps --> MultimodalIngest
+    MultimodalIngest --> VeoEngine & LyriaEngine --> ReelAssembler
     DirectorOps --> GraphRAG
     OTTOps & MartialArtsOps & SakugaOps --> MCP_Server
     MCP_Server --> Mimir & Loki & Tempo
@@ -76,26 +92,57 @@ flowchart TB
 
 ---
 
+## 🎥 End-to-End Screen Crew Workflow
+
+![Thirai Kuzhu AI Crew Workflow Pipeline](docs/assets/crew_workflow_diagram.jpg)
+
+The autonomous filmmaking pipeline operates in 6 coordinated phases:
+1. **Screenplay & Multimodal Input Ingestion**: Ingests narrative screenplay text, visual moodboards/keyframes, and acoustic samples.
+2. **Departmental Breakdown (Agent Mesh)**: DirectorOps delegates vision to specialized departments (Cinematography, Stunts, Sound, Animation).
+3. **Generative Scene Synthesis (Veo 2)**: Synthesizes high-fidelity 4K/8K shots with temporal continuity, cinematic depth of field, and dynamic camera angles.
+4. **Acoustic & Score Synthesis (Lyria)**: Generates genre-tailored symphonic themes, dynamic leitmotifs, and spatialized Dolby Atmos Foley.
+5. **Continuous Telemetry & Observability**: OpenLIT and Grafana Cloud MCP monitor rendering pipelines, token latencies, and transcode queues.
+6. **Master Cinema Reel Assembly**: Director-approved final sequence stitched with multi-language subtitle tracks for worldwide theatrical/OTT distribution.
+
+---
+
+## 🎛️ Director's Cut Console HUD
+
+![Director's Cut Console UI](docs/assets/directors_console_ui.jpg)
+
+The **Director's Cut Console** provides a unified obsidian glassmorphism workspace featuring:
+- **Live Veo 2 Shot Preview Monitor** with framerate, resolution, and camera metadata.
+- **Lyria Dolby Atmos Audio Stems Visualizer** with real-time waveform and channel balance.
+- **Real-Time SRE Telemetry Gauge** driven by Grafana Cloud PromQL/LogQL streams.
+- **Multi-Lingual Walkie-Talkie Stream** delivering localized on-set production radio comms.
+
+---
+
 ## ✨ Core Innovations & Features
 
 1. **Autonomous ADK Screen Crew**:
-   - Master `DirectorOps` coordinator orchestrates domain-specialized subagents (`ProducerOps`, `OTTOps`, `MartialArtsOps`, `AnimationSakugaOps`).
+   - Master `DirectorOps` coordinator orchestrates domain-specialized subagents (`ProducerOps`, `OTTOps`, `MartialArtsOps`, `AnimationSakugaOps`, `VFXOps`, `CinematographerLens`).
    - Strict layer boundaries: zero business calculations inside API routes; 100% Pydantic validation.
 
-2. **Runtime Grafana Cloud MCP Integration**:
+2. **Multimodal Generative Cinema Engine (DeepMind Veo 2 & Lyria)**:
+   - **Veo 2 Generative Video**: `/api/cinema/veo/generate-scene` turns scene descriptions and shot types into cinematic video reels.
+   - **Lyria Generative Audio**: `/api/cinema/lyria/generate-score` creates musical leitmotifs in specified keys and tempos with 7.1.4 Dolby Atmos spatial stems.
+   - **Master Reel Assembly**: `/api/cinema/assemble-reel` unifies shots, scores, and localized dialogue into a completed DCP master.
+
+3. **Runtime Grafana Cloud MCP Integration**:
    - Live query execution against `https://mcp.grafana.com/mcp` using modern Streamable HTTP protocol.
    - Dynamic stack routing via `X-Grafana-URL`.
    - Direct execution of PromQL (`cdn_requests_total`), LogQL (`{app="origin-transcoder"}`), and Tempo TraceQL.
    - Programmatic creation of live incident annotations on production Grafana dashboards.
 
-3. **Cinematic Readiness Index (CRI)**:
+4. **Cinematic Readiness Index (CRI)**:
    - Proprietary multi-department composite readiness score evaluated across VFX render stability, audio stem sync, color grading fidelity, and CDN edge availability.
 
-4. **Live Studio Walkie-Talkie Radio**:
+5. **Live Studio Walkie-Talkie Radio**:
    - Real-time Server-Sent Events (SSE) stream simulating on-set radio communications on Channel 1 (462.5625 MHz).
    - Zero-memory-leak frontend architecture with `AbortController` request cancellation and deterministic `EventSource.close()` teardowns.
 
-5. **22+ Languages Multi-Lingual Architecture**:
+6. **22+ Languages Multi-Lingual Architecture**:
    - Discrete modular localization architecture under `frontend/src/i18n/locales/` covering global and regional cinematic hubs (English, Tamil, Hindi, Telugu, Malayalam, Japanese, Korean, Chinese, French).
 
 ---
@@ -103,7 +150,7 @@ flowchart TB
 ## 🚀 Quickstart (Under 5 Minutes)
 
 ### Prerequisites
-- Python 3.12+
+- Python 3.12+ (managed with `uv`, `poetry`, or standard `pip`)
 - Node.js 20+ & npm 10+
 - Google Cloud Project with Vertex AI enabled
 - Grafana Cloud Stack & Access Policy Token (`metrics:read`, `logs:read`, `traces:read`, `alerts:read`)
@@ -111,24 +158,37 @@ flowchart TB
 ### 1. Clone & Setup Monorepo
 
 ```bash
-git clone https://github.com/your-org/ThiraiKuzhuAI.git
+git clone https://github.com/sivasubramanian86/ThiraiKuzhuAI.git
 cd ThiraiKuzhuAI
 ```
 
 ### 2. Backend Setup & Test Verification
 
+You can use **uv**, **poetry**, or standard **pip**:
+
+#### Option A: Using `uv` (Fastest)
+```bash
+cd backend
+uv venv
+# Windows: .venv\Scripts\activate.ps1 | Linux: source .venv/bin/activate
+uv pip install -r requirements-dev.txt
+uv run pytest --cov=src --cov-fail-under=100 -v
+```
+
+#### Option B: Using `poetry`
+```bash
+cd backend
+poetry install --with dev
+poetry run pytest --cov=src --cov-fail-under=100 -v
+```
+
+#### Option C: Using standard `pip`
 ```bash
 cd backend
 python -m venv .venv
-# On Windows:
-.venv\Scripts\Activate.ps1
-# On Linux/macOS:
-source .venv/bin/activate
-
-pip install -e ".[dev]"
-
-# Run full test suite with 100% statement coverage check
-python -m pytest tests -v --cov=src --cov-report=term-missing
+# Windows: .venv\Scripts\activate.ps1 | Linux: source .venv/bin/activate
+pip install -r requirements-dev.txt
+pytest --cov=src --cov-fail-under=100 -v
 ```
 
 ### 3. Frontend Build (Modular React 19)
