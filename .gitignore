@@ -1,0 +1,89 @@
+# ==============================================================================
+# Thirai Kuzhu AI — Git Ignore Specification
+# STRICT RULE: Never commit phase prompt files, skills, or local secrets!
+# ==============================================================================
+
+# Phase Prompts, Roadmaps & Scaffolding (KEEP LOCAL ONLY)
+phase-*.md
+*phase*.md
+MASTER_PHASE_ROADMAP.md
+*roadmap*.md
+*scaffolding*.md
+*.prompt.md
+
+# Hackathon Submission & Pitch Collateral (KEEP LOCAL ONLY)
+*devpost*
+*demo_video*
+*video_script*
+*linkedin*
+*medium*
+*pitch*
+*submission*
+DEMO_VIDEO_SCRIPT.md
+DEVPOST_SUBMISSION.md
+
+
+# Local Customizations, Skills & Memories (KEEP LOCAL ONLY)
+.gemini/
+skills/
+*.skills.json
+memories/
+*.memories*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing & Quality
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.ruff_cache/
+__pyrefly_virtual__/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.token
+
+# Node / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.next/
+out/
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

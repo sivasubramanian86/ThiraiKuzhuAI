@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions for Studio Identity & Access Management
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function hasRole(role) {
+      return isAuthenticated() && 
+             request.auth.token.keys().hasAll(['studio_role']) && 
+             request.auth.token.studio_role == role;
+    }
+    
+    function isDirectorOrSRE() {
+      return hasRole('director') || hasRole('sre') || hasRole('orchestrator_sa');
+    }
+    
+    function isProducer() {
+      return hasRole('producer') || hasRole('showrunner');
+    }
+    
+    // 1. Studio Incidents (Telemetry & Triage Records)
+    match /incidents/{incidentId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isDirectorOrSRE();
+      allow delete: if false; // Incidents are immutable historical records
+    }
+    
+    // 2. Film Productions & Franchises Catalog
+    match /projects/{projectId} {
+      allow read: if isAuthenticated();
+      allow write: if isProducer() || isDirectorOrSRE();
+    }
+    
+    // 3. Cinematic Readiness Index (CRI) Evaluations
+    match /evaluations/{evalId} {
+      allow read: if isAuthenticated();
+      allow create: if isDirectorOrSRE();
+      allow update, delete: if false; // Evaluations are point-in-time immutable audits
+    }
+    
+    // 4. Studio Security & Mitigation Audit Logs
+    match /audit_logs/{logId} {
+      allow read: if hasRole('security_admin') || hasRole('ciso');
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // Append-only immutable tamper-proof log
+    }
+
+    // Default deny for all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

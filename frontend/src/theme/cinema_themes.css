@@ -1,0 +1,80 @@
+/**
+ * Thirai Kuzhu AI — Cinematic Visual Themes
+ * 
+ * 1. Thirai Obsidian (திரை கருப்பு): Dark room grading & SRE monitoring.
+ * 2. Hollywood Red Carpet & IMAX Gold: High-contrast black and gold.
+ * 3. Cyberpunk Neon (エレクトリック ネオン): Electric cyan and magenta.
+ * 4. Mythic Golden Hour (பொன்னியின் பொற்காலம்): Warm bronze and amber.
+ * 5. Nordic Frost: Minimalist monochrome noir.
+ */
+
+:root,
+[data-theme="thirai-obsidian"] {
+  --bg-primary: #07090e;
+  --bg-secondary: #0d121d;
+  --bg-card: rgba(18, 24, 38, 0.7);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: #3b82f6;
+  --accent-gold: #f59e0b;
+  --accent-cyan: #06b6d4;
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --status-critical: #ef4444;
+  --status-success: #10b981;
+}
+
+[data-theme="hollywood-gold"] {
+  --bg-primary: #050505;
+  --bg-secondary: #12100b;
+  --bg-card: rgba(28, 24, 16, 0.75);
+  --border-subtle: rgba(245, 158, 11, 0.2);
+  --border-focus: #fbbf24;
+  --accent-gold: #fbbf24;
+  --accent-cyan: #f59e0b;
+  --text-primary: #fffbeb;
+  --text-muted: #d97706;
+  --status-critical: #dc2626;
+  --status-success: #34d399;
+}
+
+[data-theme="cyberpunk-neon"] {
+  --bg-primary: #060312;
+  --bg-secondary: #0d0624;
+  --bg-card: rgba(26, 12, 58, 0.7);
+  --border-subtle: rgba(236, 72, 153, 0.25);
+  --border-focus: #06b6d4;
+  --accent-gold: #ec4899;
+  --accent-cyan: #22d3ee;
+  --text-primary: #fdf4ff;
+  --text-muted: #a855f7;
+  --status-critical: #f43f5e;
+  --status-success: #10b981;
+}
+
+[data-theme="mythic-golden-hour"] {
+  --bg-primary: #120b05;
+  --bg-secondary: #1c1108;
+  --bg-card: rgba(43, 27, 14, 0.75);
+  --border-subtle: rgba(217, 119, 6, 0.25);
+  --border-focus: #ea580c;
+  --accent-gold: #f59e0b;
+  --accent-cyan: #d97706;
+  --text-primary: #fff7ed;
+  --text-muted: #fdba74;
+  --status-critical: #e11d48;
+  --status-success: #059669;
+}
+
+[data-theme="nordic-frost"] {
+  --bg-primary: #0b0f14;
+  --bg-secondary: #141b24;
+  --bg-card: rgba(28, 38, 51, 0.7);
+  --border-subtle: rgba(148, 163, 184, 0.2);
+  --border-focus: #38bdf8;
+  --accent-gold: #e2e8f0;
+  --accent-cyan: #7dd3fc;
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --status-critical: #f87171;
+  --status-success: #4ade80;
+}

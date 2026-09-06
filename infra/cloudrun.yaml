@@ -1,0 +1,63 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: thirai-kuzhu-ai-backend
+  labels:
+    cloud.googleapis.com/location: us-central1
+    app.kubernetes.io/name: thirai-kuzhu-ai
+    app.kubernetes.io/part-of: cinematic-observability
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: '0'
+        autoscaling.knative.dev/maxScale: '10'
+        run.googleapis.com/execution-environment: gen2
+        run.googleapis.com/startup-cpu-boost: 'true'
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      serviceAccountName: thirai-kuzhu-sa@${PROJECT_ID}.iam.gserviceaccount.com
+      containers:
+      - image: gcr.io/${PROJECT_ID}/thirai-kuzhu-ai-backend:latest
+        ports:
+        - name: http1
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: '2'
+            memory: 2Gi
+        env:
+        - name: ENV
+          value: production
+        - name: PRIMARY_MODEL
+          value: gemini-3.8-flash
+        - name: REASONING_MODEL
+          value: gemini-3.8-pro
+        - name: GRAFANA_URL
+          value: https://${GRAFANA_STACK}.grafana.net
+        - name: GRAFANA_MCP_ENDPOINT
+          value: https://${GRAFANA_STACK}.grafana.net/api/mcp
+        - name: GEMINI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: gemini-api-key
+        - name: GRAFANA_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: grafana-cloud-token
+        startupProbe:
+          httpGet:
+            path: /api/health
+            port: 8080
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8080
+          periodSeconds: 15
+          timeoutSeconds: 3
