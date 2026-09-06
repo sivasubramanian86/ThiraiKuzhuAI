@@ -9,8 +9,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install python dependencies
+# Install python dependencies and source
 COPY pyproject.toml README.md ./
+COPY src/ ./src/
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir .
 
