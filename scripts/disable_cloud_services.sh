@@ -11,14 +11,15 @@ echo "🛑 [COST GUARD] Freezing and disabling billable services for project: ${
 
 # 1. Scale Cloud Run Service to 0 instances (stops any compute execution)
 if gcloud run services describe "${SERVICE_NAME}" --project="${PROJECT_ID}" --region="${REGION}" >/dev/null 2>&1; then
-    echo "  📉 Scaling Cloud Run service '${SERVICE_NAME}' to 0 instances..."
+    echo "  🔒 Locking Cloud Run ingress to internal and scale-to-zero..."
     gcloud run services update "${SERVICE_NAME}" \
         --project="${PROJECT_ID}" \
         --region="${REGION}" \
+        --ingress=internal \
         --min-instances=0 \
-        --max-instances=0 \
+        --max-instances=1 \
         --quiet
-    echo "  ✓ Cloud Run instances frozen at 0."
+    echo "  ✓ Cloud Run ingress locked to internal; 0 internet traffic permitted."
 else
     echo "  ℹ️ Cloud Run service '${SERVICE_NAME}' not found or not deployed yet."
 fi

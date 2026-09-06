@@ -26,10 +26,11 @@ foreach ($svc in $servicesToEnable) {
 try {
     $serviceCheck = gcloud run services describe $ServiceName --project=$ProjectId --region=$Region 2>$null
     if ($serviceCheck) {
-        Write-Host "  [DEPLOY] Restoring Cloud Run capacity for '$ServiceName' (scale-to-zero active)..." -ForegroundColor Green
+        Write-Host "  [DEPLOY] Restoring Cloud Run ingress to all and capacity (scale-to-zero active)..." -ForegroundColor Green
         gcloud run services update $ServiceName `
             --project=$ProjectId `
             --region=$Region `
+            --ingress=all `
             --min-instances=0 `
             --max-instances=3 `
             --quiet

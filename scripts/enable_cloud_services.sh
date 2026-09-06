@@ -30,6 +30,7 @@ if gcloud run services describe "${SERVICE_NAME}" --project="${PROJECT_ID}" --re
     gcloud run services update "${SERVICE_NAME}" \
         --project="${PROJECT_ID}" \
         --region="${REGION}" \
+        --ingress=all \
         --min-instances=0 \
         --max-instances=3 \
         --quiet

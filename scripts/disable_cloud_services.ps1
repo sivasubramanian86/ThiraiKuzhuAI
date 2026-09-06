@@ -11,14 +11,15 @@ Write-Host "[COST GUARD] Freezing and disabling billable services for project: $
 try {
     $serviceCheck = gcloud run services describe $ServiceName --project=$ProjectId --region=$Region 2>$null
     if ($serviceCheck) {
-        Write-Host "  [SCALE] Scaling Cloud Run service '$ServiceName' to 0 instances..." -ForegroundColor Yellow
+        Write-Host "  [FREEZE] Locking Cloud Run ingress to internal and scale-to-zero..." -ForegroundColor Yellow
         gcloud run services update $ServiceName `
             --project=$ProjectId `
             --region=$Region `
+            --ingress=internal `
             --min-instances=0 `
-            --max-instances=0 `
+            --max-instances=1 `
             --quiet
-        Write-Host "  [FROZEN] Cloud Run instances frozen at 0." -ForegroundColor Green
+        Write-Host "  [FROZEN] Cloud Run ingress locked to internal; 0 internet traffic permitted." -ForegroundColor Green
     } else {
         Write-Host "  [INFO] Cloud Run service '$ServiceName' not deployed yet." -ForegroundColor Gray
     }
