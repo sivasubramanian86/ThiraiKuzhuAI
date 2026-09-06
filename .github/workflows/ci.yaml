@@ -78,5 +78,11 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm ci
 
+      - name: Frontend ESLint Check
+        run: npm run lint
+
+      - name: Frontend Vitest Suite & Coverage Check
+        run: npm run test:coverage
+
       - name: Build Vite Console Bundle
         run: npm run build

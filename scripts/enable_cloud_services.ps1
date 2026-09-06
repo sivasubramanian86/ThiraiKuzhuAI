@@ -11,6 +11,7 @@ Write-Host "[ACTIVATION] Enabling services and unfreezing Cloud Run for project:
 Write-Host "  [API] Enabling Cloud Run, Vertex AI, Translation, TTS, and Secret Manager APIs..." -ForegroundColor Yellow
 $servicesToEnable = @(
     "run.googleapis.com",
+    "cloudbuild.googleapis.com",
     "aiplatform.googleapis.com",
     "secretmanager.googleapis.com",
     "translate.googleapis.com",

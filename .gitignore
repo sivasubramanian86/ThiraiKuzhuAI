@@ -59,6 +59,9 @@ wheels/
 .pytest_cache/
 .coverage
 htmlcov/
+coverage/
+frontend/coverage/
+.vitest_cache/
 .tox/
 .ruff_cache/
 __pyrefly_virtual__/

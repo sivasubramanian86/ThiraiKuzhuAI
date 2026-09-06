@@ -191,11 +191,19 @@ pip install -r requirements-dev.txt
 pytest --cov=src --cov-fail-under=100 -v
 ```
 
-### 3. Frontend Build (Modular React 19)
+### 3. Frontend Quality Gates & Build (Modular React 19)
 
 ```bash
 cd ../frontend
 npm install
+
+# Run ESLint (React 19 flat configuration)
+npm run lint
+
+# Run Vitest test suite with v8 statement coverage
+npm run test:coverage
+
+# Build optimized production bundle
 npm run build
 ```
 
