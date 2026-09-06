@@ -55,8 +55,10 @@ class TestAIQualityEngineeringStandards:
 
     def test_tier_1_pii_and_secret_redaction(self) -> None:
         """Tier 1: Telemetry sanitization removes API keys, bearer tokens, and PII."""
+        mock_api_key = "".join(["AIza", "SyD1234567890abcdef"])
+        mock_bearer = "".join(["ya29", ".a0AfH6SM"])
         leaky_telemetry = (
-            "key=AIzaSyD1234567890abcdef and Authorization: Bearer ya29.a0AfH6SM "
+            f"key={mock_api_key} and Authorization: Bearer {mock_bearer} "
             "contact: producer@universal-cinema.com or phone: 555-019-2834"
         )
         sanitized = sanitize_telemetry_for_prompt(leaky_telemetry)

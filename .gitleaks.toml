@@ -1,0 +1,10 @@
+# Gitleaks Configuration
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allow mock test payloads in test suites"
+paths = [
+    '''backend/tests/.*''',
+    '''frontend/src/tests/.*''',
+]
