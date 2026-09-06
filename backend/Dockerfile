@@ -29,6 +29,7 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy application source
 COPY src/ ./src/
 COPY pyproject.toml .
+COPY frontend_dist /app/frontend/dist
 
 # Environment configuration
 ENV PORT=8080 \

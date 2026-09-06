@@ -18,6 +18,9 @@ Write-Host "  Container Tag:  $ImageTag"
 Write-Host "📦 Building Frontend Console..." -ForegroundColor Yellow
 Set-Location -Path "$PSScriptRoot\..\frontend"
 npm run build
+Set-Location -Path "$PSScriptRoot\.."
+if (Test-Path "backend/frontend_dist") { Remove-Item -Path "backend/frontend_dist" -Recurse -Force }
+Copy-Item -Path "frontend/dist" -Destination "backend/frontend_dist" -Recurse -Force
 
 # 2. Build Container Image via Cloud Build
 Write-Host "☁️ Submitting Container Build to Cloud Build..." -ForegroundColor Yellow

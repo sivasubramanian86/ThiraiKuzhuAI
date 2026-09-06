@@ -18,6 +18,8 @@ echo "📦 Building Frontend Console..."
 cd frontend
 npm run build
 cd ..
+rm -rf backend/frontend_dist
+cp -r frontend/dist backend/frontend_dist
 
 # 2. Build Container Image via Cloud Build
 echo "☁️ Submitting Container Build to Cloud Build..."
