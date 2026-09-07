@@ -13,8 +13,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sse_starlette.sse import EventSourceResponse
 
+from src.agents.antagonists import AntagonistEngine
+from src.agents.factory import AgentFactory
 from src.agents.orchestrator import OrchestratorAgent
 from src.agents.persona_registry import get_all_personas, get_personas_by_culture
+from src.agents.sme_spawner import DynamicSMESpawner
+from src.agents.topologies import OrchestrationTopologies
 from src.config.settings import get_settings
 from src.governance.cyber_governance import CyberGovernanceService
 from src.models.department import CinemaGenreTrack, DepartmentEnum, DepartmentPersona, StudioCulture
@@ -48,6 +52,7 @@ from src.models.incident import (
     StudioProject,
     TechnicalTelemetry,
 )
+from src.personas.loader import load_registry
 from src.services.multimodal_cinema_service import (
     CinematicReelAssembly,
     LyriaScoreGenerationRequest,
@@ -95,11 +100,18 @@ cinema_service = MultimodalCinemaService()
 cyber_service = CyberGovernanceService()
 screenplay_service = ScreenplayService()
 
+# Persona Registry & Topology Engine Instances (Phase 5)
+persona_registry = load_registry()
+agent_factory = AgentFactory(persona_registry)
+topologies = OrchestrationTopologies(agent_factory)
+sme_spawner = DynamicSMESpawner(persona_registry)
+antagonist_engine = AntagonistEngine()
+
 # In-Memory Sample Incident Store (Replaced by Firestore/BigQuery in Production)
 MOCK_INCIDENTS: dict[str, StudioIncident] = {
     "INC-2026-OTT-504": StudioIncident(
         id="INC-2026-OTT-504",
-        project_title="Baahubali III: The Eternal Realm",
+        project_title="Chronicles of Surya: The Solar Gate",
         sequence_affected="Seq 14 - Royal Coronation Climax",
         culture=StudioCulture.MYTHIC_EPIC,
         genre_track=CinemaGenreTrack.EPIC_HISTORICAL,
@@ -111,46 +123,44 @@ MOCK_INCIDENTS: dict[str, StudioIncident] = {
         ],
         telemetry=TechnicalTelemetry(
             grafana_alert_uid="Alert-OTT-504-AsiaSouth",
-            promql_metric="sum(rate(cdn_requests_total{status=~'5..'}[2m])) by (region) > 8.4%",
-            loki_log_pattern="{app='origin-transcoder'} |= 'deadlock on AV1 4K master'",
-            tempo_trace_id="7b8f9e1204cba31d",
-            raw_telemetry_payload={"cache_hit_ratio": 0.32, "stall_rate": 0.042},
+            promql_metric="sum(rate(cdn_504_errors_total[1m])) > 0.08",
+            tempo_trace_id="tempo-trace-b8a91c7",
+            severity="CRITICAL",
         ),
         cinematic_narrative=(
-            "At minute 142 of the royal coronation sequence, video playback stalled "
-            "for 42,000 viewers across South Asia. Emotional climax interrupted."
+            "OTT regional origin transcoding buffer saturated. 40,000 live streaming "
+            "subscribers experiencing sequence stalling on mobile client edge nodes."
         ),
-        box_office_at_risk_usd=38500.00,
+        box_office_at_risk_usd=45000.0,
         director_directive=(
-            "Re-route Chennai POP to Mumbai fallback. Transcode master fallback "
-            "to H.264 high-tier while origin pool restarts."
+            "Switch transcoder origin to secondary cluster and invalidate edge cache."
         ),
     )
 }
 
 # In-Memory Film Projects Catalog
 MOCK_PROJECTS: dict[str, StudioProject] = {
-    "baahubali-3": StudioProject(
-        id="baahubali-3",
-        title="Baahubali III: The Eternal Realm",
+    "surya-chronicles": StudioProject(
+        id="surya-chronicles",
+        title="Chronicles of Surya: The Solar Gate",
         culture=StudioCulture.MYTHIC_EPIC,
         genre_track=CinemaGenreTrack.EPIC_HISTORICAL,
         release_date="2026-10-24",
         status="post_production",
         cri_score=94.5,
     ),
-    "avatar-trench": StudioProject(
-        id="avatar-trench",
-        title="Avatar: The Deep Trenches",
+    "abyssal-frontier": StudioProject(
+        id="abyssal-frontier",
+        title="Abyssal Frontier: Deep Recon",
         culture=StudioCulture.HOLLYWOOD_TENTPOLE,
         genre_track=CinemaGenreTrack.ACTION_STUNTS,
         release_date="2026-12-18",
         status="vfx_rendering",
         cri_score=91.0,
     ),
-    "crane-shadow": StudioProject(
-        id="crane-shadow",
-        title="Shadow of the Crane",
+    "whisper-crane": StudioProject(
+        id="whisper-crane",
+        title="Whisper of the Crane: Wuxia Chronicles",
         culture=StudioCulture.EAST_ASIAN_ANIME,
         genre_track=CinemaGenreTrack.MARTIAL_ARTS_WUXIA,
         release_date="2026-11-05",
@@ -509,6 +519,135 @@ def format_cinematic_scene(request: ScreenplaySceneRequest) -> ScreenplaySceneRe
 def get_scene_shot_list(scene_id: str) -> list[dict[str, Any]]:
     """Generates director's cut shot list with camera moves and focal lengths."""
     return screenplay_service.generate_shot_list(scene_id)
+
+
+# =========================================================================
+# Phase 5: Complete Persona Registry, SME Spawner & Antagonist Endpoints
+# =========================================================================
+
+
+@app.get("/api/v1/personas")
+def list_registry_personas(
+    band: str | None = None,
+    model_tier: str | None = None,
+    budget_line: str | None = None,
+    search: str | None = None,
+) -> dict[str, Any]:
+    """Lists and filters personas across 17 bands conforming to Phase 5B catalog."""
+    if search:
+        results = persona_registry.search(search)
+    elif band:
+        results = persona_registry.list_by_band(band.upper())
+    else:
+        results = persona_registry.all_personas()
+
+    if model_tier:
+        results = [p for p in results if p.model_tier == model_tier.lower()]
+    if budget_line:
+        results = [p for p in results if p.budget_line == budget_line.upper()]
+
+    return {
+        "total": len(results),
+        "personas": [p.model_dump() for p in results],
+    }
+
+
+@app.get("/api/v1/personas/{persona_id}")
+def get_persona_detail(persona_id: str) -> dict[str, Any]:
+    """Retrieves full specification of a single cinematic persona."""
+    persona = persona_registry.get(persona_id.upper())
+    if not persona:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Persona '{persona_id}' not found in registry.",
+        )
+    return persona.model_dump()
+
+
+@app.post("/api/v1/personas/sme/spawn")
+def spawn_dynamic_sme(payload: dict[str, str]) -> dict[str, Any]:
+    """Extracts domain entities from screenplay text and spawns custom SME advisors dynamically."""
+    screenplay_text = payload.get("screenplay_text", "")
+    if not screenplay_text.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Field 'screenplay_text' cannot be empty.",
+        )
+    return sme_spawner.analyze_script_and_spawn(screenplay_text)
+
+
+@app.post("/api/v1/personas/debate")
+def run_persona_debate(payload: dict[str, Any]) -> dict[str, Any]:
+    """Executes arbitration loop between opposing crew personas with defined tie-breaker rules."""
+    p_a = payload.get("persona_a_id", "B01")
+    p_b = payload.get("persona_b_id", "C04")
+    topic = payload.get("topic", "Production set piece budget overrun vs artistic vision")
+    version = payload.get("script_version", "1.0")
+
+    try:
+        return topologies.run_debate(p_a, p_b, topic, script_version=version)
+    except KeyError as err:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(err)) from err
+
+
+@app.post("/api/v1/personas/antagonist/simulate")
+def simulate_antagonist_attack(payload: dict[str, Any]) -> dict[str, Any]:
+    """Runs adversarial red-team stress test against production plans."""
+    antag_id = payload.get("antagonist_id", "ANTG01")
+    proj = payload.get("project_title", "Chronicles of Surya: The Solar Gate")
+    scene = payload.get("scene_description", "Seq 14 - Waterfall Royal Gate Climax")
+    loc = payload.get("shoot_location", "Outdoor Jungle Canyon Set")
+
+    return antagonist_engine.simulate_attack(
+        antagonist_id=antag_id,
+        project_title=proj,
+        scene_description=scene,
+        shoot_location=loc,
+    )
+
+
+@app.post("/api/v1/multimodal/analyze")
+def analyze_multimodal_sample(payload: dict[str, Any]) -> dict[str, Any]:
+    """Analyzes image scans, audio WAVs, or video clips with simulated Gemini multimodal."""
+    sample_id = payload.get("sample_id", "sample_01")
+    media_type = payload.get("media_type", "image")
+    title = payload.get("title", "Cinematic Scene Asset")
+
+    # Generate rich multimodal telemetry and director assessment
+    analysis = {
+        "sample_id": sample_id,
+        "media_type": media_type,
+        "title": title,
+        "model_used": "gemini-2.5-flash-vision",
+        "multimodal_confidence": 0.965,
+        "scene_beats_detected": [
+            {
+                "beat_index": 1,
+                "description": "High tension framing with low-key shadow contrast",
+                "timecode": "00:00:12",
+            },
+            {
+                "beat_index": 2,
+                "description": "Character arrival with spatial audio pan",
+                "timecode": "00:00:45",
+            },
+        ],
+        "audio_foley_telemetry": {
+            "peak_dbr": -1.2,
+            "snr_db": 28.4,
+            "speech_clarity_score": 98.2,
+            "transcription": "Director calling: Silence on set! Roll camera, speed, action!",
+        }
+        if media_type == "audio"
+        else None,
+        "visual_continuity_flags": [
+            "Costume grime level consistent with Sequence 12 continuity bible.",
+            "Lighting color temperature verified at 3200K tungsten profile.",
+        ],
+        "director_verdict": "Asset approved for master timeline conform. Zero artifacts detected.",
+        "grafana_annotation_id": f"ANN-MM-{sample_id[-6:]}",
+    }
+    return analysis
 
 
 # Mount static frontend assets for web browser visualization and judge evaluation

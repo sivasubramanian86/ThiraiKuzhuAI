@@ -28,25 +28,15 @@ export function TopBar({
       </div>
 
       <div className="header-controls">
-        {/* Project Selector */}
-        <div className="control-group">
-          <label htmlFor="project-select" className="visually-hidden">
-            Select Studio Production
-          </label>
-          <select
-            id="project-select"
-            className="select-input"
-            value={selectedProject}
-            onChange={(e) => onSelectProject(e.target.value)}
-            aria-label="Select Studio Production"
-          >
-            {projects.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.title} ({p.genre_track ? p.genre_track.replace(/_/g, ' ') : ''})
-              </option>
-            ))}
-          </select>
+        {/* Active Production Slate (No external movie references) */}
+        <div className="studio-slate-badge" title="Active Studio Stage & Scene Slate">
+          <span className="slate-clapper" aria-hidden="true">🎬</span>
+          <div className="slate-info">
+            <span className="slate-label">STUDIO STAGE A</span>
+            <span className="slate-track">Live Production Stream</span>
+          </div>
         </div>
+
 
         {/* Cinematic Readiness Index Gauge */}
         <div

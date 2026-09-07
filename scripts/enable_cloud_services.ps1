@@ -8,14 +8,16 @@ param (
 Write-Host "[ACTIVATION] Enabling services and unfreezing Cloud Run for project: $ProjectId" -ForegroundColor Cyan
 
 # 1. Enable required APIs
-Write-Host "  [API] Enabling Cloud Run, Vertex AI, Translation, TTS, and Secret Manager APIs..." -ForegroundColor Yellow
+Write-Host "  [API] Enabling Cloud Run, Vertex AI, Translation, TTS, Vision, Video Intelligence, and Secret Manager APIs..." -ForegroundColor Yellow
 $servicesToEnable = @(
     "run.googleapis.com",
     "cloudbuild.googleapis.com",
     "aiplatform.googleapis.com",
     "secretmanager.googleapis.com",
     "translate.googleapis.com",
-    "texttospeech.googleapis.com"
+    "texttospeech.googleapis.com",
+    "vision.googleapis.com",
+    "videointelligence.googleapis.com"
 )
 
 foreach ($svc in $servicesToEnable) {

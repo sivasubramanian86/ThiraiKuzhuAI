@@ -29,6 +29,8 @@ echo "  🔒 Disabling billable auxiliary APIs..."
 SERVICES_TO_DISABLE=(
     "translate.googleapis.com"
     "texttospeech.googleapis.com"
+    "vision.googleapis.com"
+    "videointelligence.googleapis.com"
 )
 
 for svc in "${SERVICES_TO_DISABLE[@]}"; do

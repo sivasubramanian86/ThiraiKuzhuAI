@@ -10,13 +10,16 @@ SERVICE_NAME="thirai-kuzhu-ai"
 echo "⚡ [ACTIVATION] Enabling services and unfreezing Cloud Run for project: ${PROJECT_ID}"
 
 # 1. Enable required APIs
-echo "  🔓 Enabling Cloud Run, Vertex AI, Translation, TTS, and Secret Manager APIs..."
+echo "  🔓 Enabling Cloud Run, Vertex AI, Translation, TTS, Vision, Video Intelligence, and Secret Manager APIs..."
 SERVICES_TO_ENABLE=(
     "run.googleapis.com"
+    "cloudbuild.googleapis.com"
     "aiplatform.googleapis.com"
     "secretmanager.googleapis.com"
     "translate.googleapis.com"
     "texttospeech.googleapis.com"
+    "vision.googleapis.com"
+    "videointelligence.googleapis.com"
 )
 
 for svc in "${SERVICES_TO_ENABLE[@]}"; do

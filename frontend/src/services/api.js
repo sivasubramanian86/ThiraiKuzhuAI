@@ -132,3 +132,109 @@ export function streamMission(incidentId, onStep, onComplete, onError) {
     }
   };
 }
+
+/**
+ * Fetches persona catalog from the backend registry.
+ * @param {string} [band] Optional band filter ('A'..'Q', 'COMP', 'ANTG').
+ * @param {AbortSignal} [signal] Optional abort signal.
+ * @returns {Promise<Object>} Object with count and personas array.
+ */
+export async function fetchPersonas(band = '', signal) {
+  const query = band ? `?band=${encodeURIComponent(band)}` : '';
+  const res = await fetch(`${BASE_URL}/api/v1/personas${query}`, { signal });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch personas: ${res.status}`);
+  }
+  return await res.json();
+}
+
+/**
+ * Fetches a single persona by ID.
+ * @param {string} personaId Unique persona ID (e.g. 'A01', 'COMP01', 'ANTG01').
+ * @param {AbortSignal} [signal] Optional abort signal.
+ * @returns {Promise<Object>} Persona definition.
+ */
+export async function fetchPersonaById(personaId, signal) {
+  const res = await fetch(`${BASE_URL}/api/v1/personas/${encodeURIComponent(personaId)}`, { signal });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch persona ${personaId}: ${res.status}`);
+  }
+  return await res.json();
+}
+
+/**
+ * Dynamically spawns a subject-matter expert persona for screenplay requirements.
+ * @param {Object} payload {scene_description, domain_focus, parent_persona_id}
+ * @param {AbortSignal} [signal] Optional abort signal.
+ * @returns {Promise<Object>} Spawned SME specification.
+ */
+export async function spawnDynamicSme(payload, signal) {
+  const res = await fetch(`${BASE_URL}/api/v1/personas/sme/spawn`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to spawn SME: ${res.status}`);
+  }
+  return await res.json();
+}
+
+/**
+ * Runs a dialectical arbitration debate between two opposing personas.
+ * @param {Object} payload {persona_a_id, persona_b_id, arbitrator_id, topic, rounds}
+ * @param {AbortSignal} [signal] Optional abort signal.
+ * @returns {Promise<Object>} Debate outcome and verdict.
+ */
+export async function runPersonaDebate(payload, signal) {
+  const res = await fetch(`${BASE_URL}/api/v1/personas/debate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal
+  });
+  if (!res.ok) {
+    throw new Error(`Debate execution failed: ${res.status}`);
+  }
+  return await res.json();
+}
+
+/**
+ * Simulates red-team adversary attacks against film production.
+ * @param {Object} payload {antagonist_id, target_production, attack_vector, simulation_intensity}
+ * @param {AbortSignal} [signal] Optional abort signal.
+ * @returns {Promise<Object>} Adversary simulation report.
+ */
+export async function runAntagonistSimulation(payload, signal) {
+  const res = await fetch(`${BASE_URL}/api/v1/personas/antagonist/simulate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal
+  });
+  if (!res.ok) {
+    throw new Error(`Antagonist simulation failed: ${res.status}`);
+  }
+  return await res.json();
+}
+
+/**
+ * Triggers multimodal asset analysis (Script, Storyboard, Foley/Audio, Rushes/Video).
+ * @param {Object} payload {modality, sample_id, filename, analysis_depth}
+ * @param {AbortSignal} [signal] Optional abort signal.
+ * @returns {Promise<Object>} Multimodal analysis verdict.
+ */
+export async function analyzeMultimodalSample(payload, signal) {
+  const res = await fetch(`${BASE_URL}/api/v1/multimodal/analyze`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal
+  });
+  if (!res.ok) {
+    throw new Error(`Multimodal analysis failed: ${res.status}`);
+  }
+  return await res.json();
+}
+

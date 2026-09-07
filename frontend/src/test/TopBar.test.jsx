@@ -37,13 +37,12 @@ describe("TopBar Component", () => {
     expect(screen.getByText("Grafana MCP: LIVE")).toBeInTheDocument();
   });
 
-  it("calls onSelectProject when changing project", () => {
-    const onSelect = vi.fn();
+  it("renders studio slate badge with active stage and track", () => {
     render(
       <TopBar
         projects={mockProjects}
         selectedProject="proj-1"
-        onSelectProject={onSelect}
+        onSelectProject={vi.fn()}
         criScore={90}
         language="en"
         onChangeLanguage={vi.fn()}
@@ -52,9 +51,8 @@ describe("TopBar Component", () => {
       />
     );
 
-    const projectSelect = screen.getByLabelText("Select Studio Production");
-    fireEvent.change(projectSelect, { target: { value: "proj-2" } });
-    expect(onSelect).toHaveBeenCalledWith("proj-2");
+    expect(screen.getByText("STUDIO STAGE A")).toBeInTheDocument();
+    expect(screen.getByText("Live Production Stream")).toBeInTheDocument();
   });
 
   it("calls onChangeLanguage when switching language", () => {

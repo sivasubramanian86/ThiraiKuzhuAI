@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { TopBar } from './components/TopBar';
-import { IncidentSidebar } from './components/IncidentSidebar';
-import { IncidentHero } from './components/IncidentHero';
-import { AgentTimeline } from './components/AgentTimeline';
-import { MitigationPanel } from './components/MitigationPanel';
-import { WalkieTalkie } from './components/WalkieTalkie';
-import { GrafanaPanelEmbed } from './components/GrafanaPanelEmbed';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { AppShell } from './components/AppShell';
+import { StudioControlRoom } from './components/StudioControlRoom';
+import { CrewPersonaLounge } from './components/CrewPersonaLounge';
+import { DynamicSmeStudio } from './components/DynamicSmeStudio';
+import { AntagonistLab } from './components/AntagonistLab';
+import { MultiModalMediaStudio } from './components/MultiModalMediaStudio';
+import { GrafanaObservability } from './components/GrafanaObservability';
+import { FAQHelp } from './components/FAQHelp';
+import { AboutThiraiKuzhu } from './components/AboutThiraiKuzhu';
+import { SettingsStudio } from './components/SettingsStudio';
+import { ContentShieldStudio } from './components/ContentShieldStudio';
 import {
   fetchProjects,
   fetchProjectCRI,
@@ -18,10 +24,12 @@ import { getTranslations, SUPPORTED_LANGUAGES } from './i18n';
 import { DEPT_ICONS } from './constants/departments';
 
 export function App() {
+  // Navigation Tab State
+  const [activeTab, setActiveTab] = useState('control_room');
+
   // Localization & State
   const [language, setLanguage] = useState('en');
   const i18n = getTranslations(language);
-
 
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState('baahubali-3');
@@ -86,8 +94,12 @@ export function App() {
     async function updateCRI() {
       try {
         const report = await fetchProjectCRI(selectedProjectId, controller.signal);
-        if (report && typeof report.cri_score === 'number') {
-          setCriScore(report.cri_score);
+        if (report) {
+          if (typeof report.cri_score === 'number') {
+            setCriScore(report.cri_score);
+          } else if (typeof report.composite_cri_score === 'number') {
+            setCriScore(report.composite_cri_score);
+          }
         }
       } catch (err) {
         if (err.name !== 'AbortError') {
@@ -214,7 +226,7 @@ export function App() {
 
       if (res && res.success) {
         setMitigationApplied(true);
-        setStatusMessage(`[SUCCESS] ${res.message} (Grafana Annotation ID: ${res.grafana_annotation_id})`);
+        setStatusMessage(`[SUCCESS] ${res.message || 'Mitigation applied'} (Grafana Annotation ID: ${res.grafana_annotation_id || 'ann-101'})`);
         appendWalkie(
           "🎬 Director's Cut",
           'All channels copy: Mitigation executed. Quality confirmed. Sequence preserved.'
@@ -233,7 +245,7 @@ export function App() {
     const chaosScenarios = {
       ott_premiere_spike: {
         id: 'INC-2026-CHAOS-01',
-        project_title: 'Baahubali III: The Eternal Realm',
+        project_title: 'Chronicles of Surya: The Solar Gate',
         sequence_affected: 'Seq 22 - Waterfall Gate Invasion',
         culture: 'MYTHIC_EPIC',
         genre_track: 'EPIC_HISTORICAL',
@@ -250,7 +262,7 @@ export function App() {
       },
       vfx_crash: {
         id: 'INC-2026-CHAOS-02',
-        project_title: 'Avatar: The Deep Trenches',
+        project_title: 'Abyssal Frontier: Trench Recon',
         sequence_affected: 'Seq 08 - Bioluminescent Biolab Strike',
         culture: 'HOLLYWOOD_TENTPOLE',
         genre_track: 'ACTION_STUNTS',
@@ -267,7 +279,7 @@ export function App() {
       },
       wuxia_foley_lag: {
         id: 'INC-2026-CHAOS-03',
-        project_title: 'Shadow of the Crane',
+        project_title: 'Whisper of the Crane: Wuxia Chronicles',
         sequence_affected: 'Seq 05 - Bamboo Forest Sword Duel',
         culture: 'EAST_ASIAN_ANIME',
         genre_track: 'MARTIAL_ARTS_WUXIA',
@@ -284,7 +296,7 @@ export function App() {
       },
       anime_sakuga_stall: {
         id: 'INC-2026-CHAOS-04',
-        project_title: 'Shadow of the Crane',
+        project_title: 'Whisper of the Crane: Wuxia Chronicles',
         sequence_affected: 'Seq 19 - Moonlight Duel Sakuga Sequence',
         culture: 'EAST_ASIAN_ANIME',
         genre_track: 'MARTIAL_ARTS_WUXIA',
@@ -297,6 +309,7 @@ export function App() {
         cinematic_narrative:
           'Frame drop ratio spiked to 7.5% during high-energy keyframe animation cut.',
         box_office_at_risk_usd: 22000.0,
+
         director_directive:
           'Increase dynamic buffer window to 3000ms and pre-render keyframe interpolation.'
       }
@@ -312,64 +325,64 @@ export function App() {
   }, [appendWalkie]);
 
   return (
-    <div>
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
+    <AuthProvider>
+      <ThemeProvider>
+        <div>
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
 
-      <TopBar
-        projects={projects}
-        selectedProject={selectedProjectId}
-        onSelectProject={setSelectedProjectId}
-        criScore={criScore}
-        language={language}
-        onChangeLanguage={setLanguage}
-        supportedLanguages={SUPPORTED_LANGUAGES}
-        i18n={i18n}
-      />
-
-      <div className="workspace-grid">
-        <IncidentSidebar
-          incidents={incidents}
-          selectedIncidentId={activeIncident ? activeIncident.id : null}
-          onSelectIncident={handleSelectIncident}
-          onInjectChaos={handleInjectChaos}
-          i18n={i18n}
-        />
-
-        <main id="main-content" className="main-canvas" role="main" aria-label="Incident Investigation Canvas">
-          <IncidentHero
-            incident={activeIncident}
-            isInvestigating={isInvestigating}
-            onDispatch={handleDispatch}
+          <AppShell
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            projects={projects}
+            selectedProject={selectedProjectId}
+            onSelectProject={setSelectedProjectId}
+            criScore={criScore}
+            language={language}
+            onChangeLanguage={setLanguage}
+            supportedLanguages={SUPPORTED_LANGUAGES}
             i18n={i18n}
-          />
+          >
+            {activeTab === 'control_room' && (
+              <StudioControlRoom
+                incidents={incidents}
+                activeIncident={activeIncident}
+                onSelectIncident={handleSelectIncident}
+                onInjectChaos={handleInjectChaos}
+                isInvestigating={isInvestigating}
+                onDispatch={handleDispatch}
+                agentSteps={agentSteps}
+                mitigationPlan={mitigationPlan}
+                isApplying={isApplying}
+                mitigationApplied={mitigationApplied}
+                statusMessage={statusMessage}
+                onApplyMitigation={handleApplyMitigation}
+                walkieMessages={walkieMessages}
+                i18n={i18n}
+              />
+            )}
 
-          <AgentTimeline steps={agentSteps} i18n={i18n} />
+            {activeTab === 'crew_lounge' && <CrewPersonaLounge />}
 
-          <MitigationPanel
-            mitigationPlan={mitigationPlan}
-            boxOfficeRisk={activeIncident ? activeIncident.box_office_at_risk_usd : 0}
-            isApplying={isApplying}
-            mitigationApplied={mitigationApplied}
-            statusMessage={statusMessage}
-            onApplyMitigation={handleApplyMitigation}
-            i18n={i18n}
-          />
-        </main>
+            {activeTab === 'sme_studio' && <DynamicSmeStudio />}
 
-        <aside className="right-rail" role="complementary" aria-label="Studio Walkie Talkie and Telemetry">
-          <WalkieTalkie messages={walkieMessages} i18n={i18n} />
-          <GrafanaPanelEmbed
-            promqlQuery={activeIncident?.telemetry?.promql_metric}
-            alertLabel={
-              activeIncident?.telemetry?.grafana_alert_uid
-                ? `${activeIncident.telemetry.grafana_alert_uid.split('-')[1] || 'Alert'} Spike`
-                : '504 Spike: 8.4%'
-            }
-          />
-        </aside>
-      </div>
-    </div>
+            {activeTab === 'antagonist_lab' && <AntagonistLab />}
+
+            {activeTab === 'multimodal_studio' && <MultiModalMediaStudio />}
+
+            {activeTab === 'content_shield' && <ContentShieldStudio />}
+
+            {activeTab === 'observability' && <GrafanaObservability />}
+
+            {activeTab === 'faq_help' && <FAQHelp />}
+
+            {activeTab === 'about' && <AboutThiraiKuzhu />}
+
+            {activeTab === 'settings' && <SettingsStudio />}
+          </AppShell>
+        </div>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }

@@ -44,7 +44,7 @@ async def test_list_and_get_incidents(async_client: AsyncClient) -> None:
     assert get_resp.status_code == 200
     data = get_resp.json()
     assert data["id"] == target_id
-    assert "Baahubali" in data["project_title"]
+    assert "Chronicles of Surya" in data["project_title"]
 
     # 3. Not found handling
     nf_resp = await async_client.get("/api/incidents/NON_EXISTENT_ID")
@@ -171,8 +171,8 @@ async def test_list_projects_endpoint(async_client: AsyncClient) -> None:
     assert resp.status_code == 200
     projects = resp.json()
     assert len(projects) >= 3
-    assert any(p["id"] == "baahubali-3" for p in projects)
-    assert any(p["id"] == "avatar-trench" for p in projects)
+    assert any(p["id"] == "surya-chronicles" for p in projects)
+    assert any(p["id"] == "abyssal-frontier" for p in projects)
 
 
 @pytest.mark.asyncio
@@ -183,10 +183,10 @@ async def test_cri_evaluation_endpoint(async_client: AsyncClient) -> None:
         async_client: Async HTTP client fixture.
     """
     # 1. Valid project evaluation
-    resp = await async_client.get("/api/evaluation/cri/baahubali-3")
+    resp = await async_client.get("/api/evaluation/cri/surya-chronicles")
     assert resp.status_code == 200
     report = resp.json()
-    assert report["project_id"] == "baahubali-3"
+    assert report["project_id"] == "surya-chronicles"
     assert report["cri_score"] >= 90.0
     assert "vfx_pipeline_stability" in report["radar_metrics"]
     assert "sound_stem_sync" in report["radar_metrics"]

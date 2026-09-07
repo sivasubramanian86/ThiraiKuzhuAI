@@ -31,7 +31,9 @@ try {
 Write-Host "  [API] Disabling billable auxiliary APIs..." -ForegroundColor Yellow
 $servicesToDisable = @(
     "translate.googleapis.com",
-    "texttospeech.googleapis.com"
+    "texttospeech.googleapis.com",
+    "vision.googleapis.com",
+    "videointelligence.googleapis.com"
 )
 
 foreach ($svc in $servicesToDisable) {

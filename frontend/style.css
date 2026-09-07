@@ -1,5 +1,6 @@
 /* Thirai Kuzhu AI — Director's Cut Console Stylesheet */
-:root {
+:root,
+[data-theme="dark"] {
   --bg-primary: #07090E;
   --bg-secondary: #0D111A;
   --bg-surface: rgba(17, 24, 39, 0.75);
@@ -28,6 +29,30 @@
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-surface: rgba(255, 255, 255, 0.94);
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-elevated: #ffffff;
+  
+  --border-subtle: rgba(0, 0, 0, 0.09);
+  --border-focus: #D97706;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  
+  --accent-gold: #D97706;
+  --accent-gold-glow: rgba(217, 119, 6, 0.2);
+  --accent-cyan: #0891B2;
+  --accent-cyan-glow: rgba(8, 145, 178, 0.2);
+  --status-critical: #DC2626;
+  --status-warning: #D97706;
+  --status-success: #059669;
+}
+
 
 *, *::before, *::after {
   box-sizing: border-box;
