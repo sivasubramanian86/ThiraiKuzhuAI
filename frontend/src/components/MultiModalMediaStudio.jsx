@@ -500,7 +500,7 @@ export function MultiModalMediaStudio() {
               <div className="empty-eye">👁️</div>
               <p>No multimodal inspection triggered yet.</p>
               <p className="empty-subtext">
-                Select an asset above, inspect the scan or preview on the left, and click "Analyze with Gemini Multimodal" to run deep perception, OCR, and acoustic evaluation.
+                Select an asset above, inspect the scan or preview on the left, and click &quot;Analyze with Gemini Multimodal&quot; to run deep perception, OCR, and acoustic evaluation.
               </p>
             </div>
           )}

@@ -220,7 +220,7 @@ export function ContentShieldStudio() {
               <div className="text-4xl mb-2">🔒</div>
               <p>No active audit in progress.</p>
               <p className="text-xs text-slate-500 mt-1">
-                Click "Run Real-Time IP & Security Audit" to perform full spectrum forensic analysis.
+                Click &quot;Run Real-Time IP &amp; Security Audit&quot; to perform full spectrum forensic analysis.
               </p>
             </div>
           )}

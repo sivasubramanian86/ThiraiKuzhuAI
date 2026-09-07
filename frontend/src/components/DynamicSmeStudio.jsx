@@ -217,7 +217,7 @@ export function DynamicSmeStudio() {
               <div className="empty-icon">🧬</div>
               <p>No dynamic SME spawned yet.</p>
               <p className="empty-subtext">
-                Select a screenplay preset or enter a scene prompt, then click "Spawn Dynamic Advisor" to dynamically extract domain entities and build an on-demand specialist.
+                Select a screenplay preset or enter a scene prompt, then click &quot;Spawn Dynamic Advisor&quot; to dynamically extract domain entities and build an on-demand specialist.
               </p>
             </div>
           )}

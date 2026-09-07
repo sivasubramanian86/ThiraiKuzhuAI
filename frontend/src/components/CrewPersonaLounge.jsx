@@ -36,10 +36,9 @@ export function CrewPersonaLounge() {
   const [selectedPersona, setSelectedPersona] = useState(null);
 
   // Debate state
-  const [showDebateModal, setShowDebateModal] = useState(false);
   const [opponentId, setOpponentId] = useState('');
   const [debateTopic, setDebateTopic] = useState('8K 120fps IMAX volumetric pipeline vs budget constraints');
-  const [debateRounds, setDebateRounds] = useState(2);
+  const debateRounds = 2;
   const [isDebating, setIsDebating] = useState(false);
   const [debateResult, setDebateResult] = useState(null);
 

@@ -12,6 +12,8 @@ import { FAQHelp } from './components/FAQHelp';
 import { AboutThiraiKuzhu } from './components/AboutThiraiKuzhu';
 import { SettingsStudio } from './components/SettingsStudio';
 import { ContentShieldStudio } from './components/ContentShieldStudio';
+import AnimationCharacterStudio from './components/AnimationCharacterStudio';
+import VirtualArtStudio from './components/VirtualArtStudio';
 import {
   fetchProjects,
   fetchProjectCRI,
@@ -364,6 +366,10 @@ export function App() {
             )}
 
             {activeTab === 'crew_lounge' && <CrewPersonaLounge />}
+
+            {activeTab === 'anime_vault' && <AnimationCharacterStudio />}
+
+            {activeTab === 'art_director' && <VirtualArtStudio />}
 
             {activeTab === 'sme_studio' && <DynamicSmeStudio />}
 

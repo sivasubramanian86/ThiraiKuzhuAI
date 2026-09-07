@@ -6,9 +6,9 @@ import React from 'react';
  * language selector, and Grafana Cloud MCP live status badge.
  */
 export function TopBar({
-  projects,
-  selectedProject,
-  onSelectProject,
+  _projects,
+  _selectedProject,
+  _onSelectProject,
   criScore,
   language,
   onChangeLanguage,

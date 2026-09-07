@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(DEFAULT_USER);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  const loginWithPersona = useCallback((personaId, personaTitle, department, theme) => {
+  const loginWithPersona = useCallback((personaId, personaTitle, department, _theme) => {
     setUser({
       uid: `usr-persona-${personaId.toLowerCase()}`,
       displayName: `${personaTitle} (${personaId})`,

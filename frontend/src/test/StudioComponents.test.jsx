@@ -12,6 +12,8 @@ import { AboutThiraiKuzhu } from '../components/AboutThiraiKuzhu';
 import { SettingsStudio } from '../components/SettingsStudio';
 import { ContentShieldStudio } from '../components/ContentShieldStudio';
 import { AuthModal } from '../components/AuthModal';
+import AnimationCharacterStudio from '../components/AnimationCharacterStudio';
+import VirtualArtStudio from '../components/VirtualArtStudio';
 import * as api from '../services/api';
 
 function renderWithProviders(ui) {
@@ -289,3 +291,82 @@ describe('AuthModal Component', () => {
     expect(onClose).toHaveBeenCalled();
   });
 });
+
+describe('AnimationCharacterStudio Component', () => {
+  it('renders open source dataset anchors and archetypes', () => {
+    renderWithProviders(<AnimationCharacterStudio />);
+    expect(screen.getByText(/Anime & Animation Character Vault/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Danbooru2024/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/AniList Character/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/AnimeFace Landmark 68k/i)).toBeInTheDocument();
+    expect(screen.getByText(/OpenArt 3D Cel-Mesh/i)).toBeInTheDocument();
+  });
+
+  it('allows switching turnaround camera angle (Front, 3/4, Profile)', () => {
+    renderWithProviders(<AnimationCharacterStudio />);
+    const angleTab = screen.getByRole('tab', { name: /45° 3\/4 Profile/i });
+    fireEvent.click(angleTab);
+    expect(screen.getByText(/VIEW: THREEQUARTER/i)).toBeInTheDocument();
+  });
+
+  it('runs 24fps consistency audit and updates metric', async () => {
+    renderWithProviders(<AnimationCharacterStudio />);
+    const auditBtn = screen.getByRole('button', { name: /Run Character Consistency Audit/i });
+    fireEvent.click(auditBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Audited by:/i)).toBeInTheDocument();
+    }, { timeout: 2000 });
+  });
+
+  it('binds selected anime character to production slate', async () => {
+    renderWithProviders(<AnimationCharacterStudio />);
+    const bindBtn = screen.getByRole('button', { name: /Bind Character to Active Scene Slate/i });
+    fireEvent.click(bindBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText(/bound to Active Scene/i)).toBeInTheDocument();
+    });
+  });
+});
+
+describe('VirtualArtStudio Component', () => {
+  it('renders Google Imagen 3 and Nano Banana Edge models', () => {
+    renderWithProviders(<VirtualArtStudio />);
+    expect(screen.getByText(/Virtual Art Department & Production Design Studio/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Google Imagen 3 Ultra/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Nano Banana Edge/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Photoreal 4K/i)).toBeInTheDocument();
+    expect(screen.getByText(/Edge 0.4s/i)).toBeInTheDocument();
+  });
+
+  it('allows switching to Nano Banana Edge model', () => {
+    renderWithProviders(<VirtualArtStudio />);
+    const nanoBananaCard = screen.getByTestId('model-card-nano-banana');
+    fireEvent.click(nanoBananaCard);
+    expect(screen.getByRole('button', { name: /Render Architecture with Nano Banana Edge/i })).toBeInTheDocument();
+  });
+
+  it('allows toggling CAD Grid overlay and switching aspect ratios', () => {
+    renderWithProviders(<VirtualArtStudio />);
+    const gridToggle = screen.getByRole('button', { name: /CAD Grid:/i });
+    expect(screen.getByText(/CAD Grid: ON/i)).toBeInTheDocument();
+    fireEvent.click(gridToggle);
+    expect(screen.getByText(/CAD Grid: OFF/i)).toBeInTheDocument();
+
+    const anamorphicBtn = screen.getByRole('button', { name: /2.39:1 CinemaScope/i });
+    fireEvent.click(anamorphicBtn);
+    expect(screen.getAllByText(/2.39:1/i).length).toBeGreaterThan(0);
+  });
+
+  it('binds rendered artwork to production slate', async () => {
+    renderWithProviders(<VirtualArtStudio />);
+    const bindBtn = screen.getByRole('button', { name: /Bind to Production Slate/i });
+    fireEvent.click(bindBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Artwork bound to Production Slate/i)).toBeInTheDocument();
+    });
+  });
+});
+

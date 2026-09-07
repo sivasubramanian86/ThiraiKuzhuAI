@@ -6,6 +6,8 @@ import { AuthModal } from './AuthModal';
 const NAV_ITEMS = [
   { id: 'control_room', label: 'Control Room', icon: '🎬', badge: 'LIVE' },
   { id: 'crew_lounge', label: 'Crew Lounge', icon: '👥', badge: '369' },
+  { id: 'anime_vault', label: 'Anime Vault', icon: '🎌', badge: 'OS Data' },
+  { id: 'art_director', label: 'Art Department', icon: '🎨', badge: 'Imagen 3' },
   { id: 'sme_studio', label: 'Dynamic SME', icon: '🧬', badge: 'Sec 19' },
   { id: 'antagonist_lab', label: 'Red-Team Lab', icon: '🛡️', badge: 'Chaos' },
   { id: 'multimodal_studio', label: 'MultiModal Studio', icon: '👁️', badge: 'Veo/Lyria' },
@@ -19,9 +21,9 @@ const NAV_ITEMS = [
 export function AppShell({
   activeTab,
   onTabChange,
-  projects,
-  selectedProject,
-  onSelectProject,
+  _projects,
+  _selectedProject,
+  _onSelectProject,
   criScore,
   language,
   onChangeLanguage,

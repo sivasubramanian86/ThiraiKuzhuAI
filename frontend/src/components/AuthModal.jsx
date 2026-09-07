@@ -194,7 +194,7 @@ export function AuthModal({ isOpen, onClose }) {
                   <span className="feature-bullet">1.</span>
                   <div>
                     <strong>Workload Identity Federation & Custom Claims:</strong>
-                    <p>Each crew member authenticates via Firebase Auth. The issued JWT token contains signed Custom Claims (e.g. <code>band: 'E', persona: 'E01', can_block: true</code>).</p>
+                    <p>Each crew member authenticates via Firebase Auth. The issued JWT token contains signed Custom Claims (e.g. <code>band: &apos;E&apos;, persona: &apos;E01&apos;, can_block: true</code>).</p>
                   </div>
                 </div>
                 <div className="iam-feature-row">
