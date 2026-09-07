@@ -165,12 +165,8 @@ class ScreenplaySceneRequest(BaseModel):
     action_description: str = Field(
         ..., description="Visual camera directions and physical actions"
     )
-    dialogue_intent: str = Field(
-        default="", description="Emotional conflict or dramatic tension"
-    )
-    dramatic_intent: str = Field(
-        default="", description="Dramatic intent or beat description"
-    )
+    dialogue_intent: str = Field(default="", description="Emotional conflict or dramatic tension")
+    dramatic_intent: str = Field(default="", description="Dramatic intent or beat description")
     language: str = Field(default="en", description="Dialogue language code e.g. 'ta', 'hi', 'en'")
 
 
