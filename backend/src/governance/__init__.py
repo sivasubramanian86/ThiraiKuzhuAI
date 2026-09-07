@@ -4,6 +4,7 @@ Follows PEP 257 Google-style docstrings.
 """
 
 from src.governance.auth import StudioIdentity, verify_studio_token
+from src.governance.cyber_governance import CyberGovernanceService
 from src.governance.kms_secrets import StudioSecretManager
 from src.governance.sanitizer import (
     ExecutionCircuitBreaker,
@@ -11,6 +12,7 @@ from src.governance.sanitizer import (
 )
 
 __all__ = [
+    "CyberGovernanceService",
     "ExecutionCircuitBreaker",
     "StudioIdentity",
     "StudioSecretManager",

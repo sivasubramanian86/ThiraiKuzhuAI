@@ -165,15 +165,34 @@ flowchart TD
 ### 4.1 Model Routing & Lifecycle
 - **Primary Telemetry Engine**: `gemini-3.8-flash-001` (`vertex-ai:gemini-3.8-flash-001`). Sub-second response times for parallel PromQL/LogQL log scraping and sub-agent analysis.
 - **Director Synthesis Engine**: `gemini-3.8-pro-001` (`vertex-ai:gemini-3.8-pro-001`). Multi-department root cause analysis, narrative generation, and Box-Office-at-Risk economic modeling.
+- **Cybersecurity & IP Governance Engine**: `gemini-3.8-flash-cyber` (`vertex-ai:gemini-3.8-flash-cyber`). Threat auditing, prompt injection/jailbreak defense, DRM stream token validation, script plagiarism analysis, and patent clearance.
 - **Fallback Hierarchy**:
   1. Primary: `gemini-3.8-flash-001`
   2. Reasoning Escalation: `gemini-3.8-pro-001`
-  3. Stable Fallback: `gemini-3.1-flash-001`
-  4. Cold Fallback: `gemini-2.0-flash-001`
+  3. Cyber & Governance: `gemini-3.8-flash-cyber`
+  4. Stable Fallback: `gemini-3.1-flash-001`
+  5. Cold Fallback: `gemini-2.0-flash-001`
 
 ### 4.2 Gemini Context Caching
 - **Cached Objects**: Film script bibles (150-page screenplays), SMPTE/DCI delivery manuals, actor voice profiles, and studio infrastructure topology.
 - **Economics**: 75% token cost reduction on repeated sub-agent queries; 60% reduction in Time-to-First-Token (TTFT).
+
+### 4.3 Expanded Screen Crew Personas & Cinematic Universe Subagents
+To reflect the end-to-end craft of professional film production, Thirai Kuzhu AI integrates 6 specialized creative and legal personas:
+1. **StoryWriterOps (`mythic_story_writer`)**: 3-act narrative architecture, character archetypes (Protagonist, Antagonist, Mentor, Trickster), and thematic dilemma development.
+2. **DialogueWriterOps (`pan_indian_dialogue_writer`)**: High-voltage punchlines, localized cultural idioms, and multi-lingual dubbing cadence synchronization.
+3. **ScreenplayOps (`hollywood_screenplay_architect`)**: Standard Final Draft slugline formatting (`INT./EXT.`), action blocks, minute-per-page pacing, and camera cues.
+4. **FilmEditorOps (`feature_film_editor`)**: Non-linear editing (NLE) cut pacing, J/L cut audio smoothing, 24.000 fps master timecode conform, and zero frame slippage.
+5. **CinematographerLens (`auteur_cinematographer`)**: Anamorphic optics (2.39:1), ACES 1.3 color workflows, lighting key-to-fill ratios, and sensor latitude preservation.
+6. **CopyrightLegalOps (`cyber_copyright_counsel`)**: Powered by Gemini 3.8 Flash Cyber for IP clearance, screenplay plagiarism scoring, and patent collision audits.
+
+### 4.4 Studio Content Shield & IP Protection Engine
+The `/api/governance/content/protect` and `/api/governance/copyright/plagiarism-check` pipelines enforce:
+- **AI Provenance & SynthID Watermarking**: Verifies digital watermarks and C2PA manifests across generated video/audio.
+- **Digital Piracy Defense & DRM Licensing**: Validates Widevine/FairPlay tokens and detects cam-rip/torrent leaks.
+- **Illicit Content Filters**: Enforces MPAA and CBFC guidelines against extreme violence, illegal narcotics, and dangerous weapons.
+- **Duplicate Asset Detection**: Perceptual media hashing (pHash / Chromaprint) eliminates recycled stock assets.
+- **Copyright & Patent Clearance**: Detects dialogue collisions against protected screenplays and audits proprietary virtual camera patents.
 
 ---
 

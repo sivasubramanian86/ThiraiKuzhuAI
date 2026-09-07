@@ -2,7 +2,7 @@
 
 > **Agentic Cinema: The Blockbuster Hackathon** (Devpost)  
 > **Partner Track**: **Grafana Labs Track**  
-> **Powered by**: **Gemini 3.8 Flash (`gemini-3.8-flash-001`)** & **Gemini 3.8 Pro (`gemini-3.8-pro-001`)** via Google Cloud Agent Development Kit (ADK) + Hosted Grafana Cloud MCP Server.
+> **Powered by**: **Gemini 3.8 Flash (`gemini-3.8-flash-001`)**, **Gemini 3.8 Pro (`gemini-3.8-pro-001`)**, and **Gemini 3.8 Flash Cyber (`gemini-3.8-flash-cyber`)** via Google Cloud Agent Development Kit (ADK) + Hosted Grafana Cloud MCP Server.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
@@ -11,7 +11,7 @@
 [![Vite](https://img.shields.io/badge/Vite-6.2%2B-646CFF.svg)](https://vitejs.dev/)
 [![Poetry](https://img.shields.io/badge/Poetry-2.4%2B-blueviolet.svg)](https://python-poetry.org/)
 [![uv](https://img.shields.io/badge/uv-0.9%2B-ff69b4.svg)](https://astral.sh/uv)
-[![Tests Coverage](https://img.shields.io/badge/Coverage-100%25%20(81%2F81)-brightgreen.svg)](backend/pyproject.toml)
+[![Tests Coverage](https://img.shields.io/badge/Coverage-100%25%20(111%2F111)-brightgreen.svg)](backend/pyproject.toml)
 [![Security](https://img.shields.io/badge/Bandit-Passing%20(0%20issues)-brightgreen.svg)](backend/pyproject.toml)
 [![Grafana MCP](https://img.shields.io/badge/Grafana%20Cloud-MCP%20Streamable%20HTTP-F46800.svg)](https://mcp.grafana.com/mcp)
 [![Google Cloud Run](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run%20Gen2-4285F4.svg)](infra/cloudrun.yaml)
@@ -120,29 +120,41 @@ The **Director's Cut Console** provides a unified obsidian glassmorphism workspa
 
 ## ✨ Core Innovations & Features
 
-1. **Autonomous ADK Screen Crew**:
-   - Master `DirectorOps` coordinator orchestrates domain-specialized subagents (`ProducerOps`, `OTTOps`, `MartialArtsOps`, `AnimationSakugaOps`, `VFXOps`, `CinematographerLens`).
-   - Strict layer boundaries: zero business calculations inside API routes; 100% Pydantic validation.
+1. **Autonomous ADK Screen Crew (14 Specialized Personas)**:
+   - Master `DirectorOps` coordinator orchestrates domain-specialized subagents:
+     - **Narrative & Creative**: `StoryWriterOps` (3-act hero's journey), `DialogueWriterOps` (punch dialogue & cadence), `ScreenplayOps` (slugline formatting & beat pacing).
+     - **Visual & Audio Production**: `CinematographerLens` (ACES 1.3 & anamorphic optics), `FilmEditorOps` (24fps NLE conform), `VFXOps` (GPU cluster VRAM), `AnimationSakugaOps` (stepped queues), `AudioOps` (Dolby Atmos stems), `MartialArtsOps` (combat foley <5ms).
+     - **Business & Legal Governance**: `ProducerOps` (real-time box-office risk), `OTTOps` (SMPTE/IMF transcode CDN), `CopyrightLegalOps` (Gemini 3.8 Flash Cyber IP protection).
+   - Strict layer boundaries: zero business calculations inside API routes; 100% Pydantic v2 validation.
 
-2. **Multimodal Generative Cinema Engine (DeepMind Veo 2 & Lyria)**:
+2. **Cybersecurity & Content Shield (Powered by Gemini 3.8 Flash Cyber)**:
+   - **Adversarial & Threat Defense**: `/api/governance/cyber/audit` audits telemetry queries, commands, and prompts against prompt injection, jailbreaks, and credential leaks.
+   - **AI Provenance & SynthID Watermarking**: `/api/governance/content/protect` inspects digital watermarks, C2PA synthetic manifests, and AI generation probabilities.
+   - **Digital Piracy & DRM Stream Defense**: Validates Widevine/FairPlay tokens and catches cam-rip / torrent leak exposure.
+   - **Safety & Illicit Content Filter**: Enforces strict MPAA / CBFC compliance against extreme violence, illegal narcotics, and dangerous weapons.
+   - **Duplicate Asset Detection**: Perceptual media hashing (pHash / Chromaprint) eliminates recycled stock assets.
+   - **Copyright & Patent Clearance**: `/api/governance/copyright/plagiarism-check` checks screenplay originality, keyword collision against protected IP, and virtual camera gyro patent safety.
+
+3. **Multimodal Generative Cinema Engine (DeepMind Veo 2 & Lyria)**:
    - **Veo 2 Generative Video**: `/api/cinema/veo/generate-scene` turns scene descriptions and shot types into cinematic video reels.
    - **Lyria Generative Audio**: `/api/cinema/lyria/generate-score` creates musical leitmotifs in specified keys and tempos with 7.1.4 Dolby Atmos spatial stems.
    - **Master Reel Assembly**: `/api/cinema/assemble-reel` unifies shots, scores, and localized dialogue into a completed DCP master.
+   - **Screenplay Architecture**: `/api/cinema/story/generate-premise` and `/api/cinema/screenplay/format-scene` automate script breakdowns.
 
-3. **Runtime Grafana Cloud MCP Integration**:
+4. **Runtime Grafana Cloud MCP Integration**:
    - Live query execution against `https://mcp.grafana.com/mcp` using modern Streamable HTTP protocol.
    - Dynamic stack routing via `X-Grafana-URL`.
    - Direct execution of PromQL (`cdn_requests_total`), LogQL (`{app="origin-transcoder"}`), and Tempo TraceQL.
    - Programmatic creation of live incident annotations on production Grafana dashboards.
 
-4. **Cinematic Readiness Index (CRI)**:
+5. **Cinematic Readiness Index (CRI)**:
    - Proprietary multi-department composite readiness score evaluated across VFX render stability, audio stem sync, color grading fidelity, and CDN edge availability.
 
-5. **Live Studio Walkie-Talkie Radio**:
+6. **Live Studio Walkie-Talkie Radio**:
    - Real-time Server-Sent Events (SSE) stream simulating on-set radio communications on Channel 1 (462.5625 MHz).
    - Zero-memory-leak frontend architecture with `AbortController` request cancellation and deterministic `EventSource.close()` teardowns.
 
-6. **22+ Languages Multi-Lingual Architecture**:
+7. **22+ Languages Multi-Lingual Architecture**:
    - Discrete modular localization architecture under `frontend/src/i18n/locales/` covering global and regional cinematic hubs (English, Tamil, Hindi, Telugu, Malayalam, Japanese, Korean, Chinese, French).
 
 ---

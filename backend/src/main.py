@@ -16,6 +16,7 @@ from sse_starlette.sse import EventSourceResponse
 from src.agents.orchestrator import OrchestratorAgent
 from src.agents.persona_registry import get_all_personas, get_personas_by_culture
 from src.config.settings import get_settings
+from src.governance.cyber_governance import CyberGovernanceService
 from src.models.department import CinemaGenreTrack, DepartmentEnum, DepartmentPersona, StudioCulture
 from src.models.evaluation import (
     CinematicIndices,
@@ -23,6 +24,18 @@ from src.models.evaluation import (
     LLMJudgeScore,
     SceneCriticalReport,
     UniverseBulletin,
+)
+from src.models.governance import (
+    ContentProtectionRequest,
+    ContentProtectionResult,
+    CyberThreatAuditRequest,
+    CyberThreatAuditResult,
+    ScreenplaySceneRequest,
+    ScreenplaySceneResult,
+    ScriptPlagiarismCheckRequest,
+    ScriptPlagiarismCheckResult,
+    StoryPremiseRequest,
+    StoryPremiseResult,
 )
 from src.models.incident import (
     CRIEvaluationReport,
@@ -44,6 +57,7 @@ from src.services.multimodal_cinema_service import (
     VeoVideoGenerationRequest,
     VeoVideoGenerationResult,
 )
+from src.services.screenplay_service import ScreenplayService
 from src.tools.cinema_eval_tools import (
     compute_all_cinematic_indices,
     evaluate_agent_response_rubric,
@@ -73,11 +87,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Singleton Orchestrator, Translation, Voice, and Generative Cinema Instances
+# Singleton Orchestrator, Translation, Voice, Cinema, Cyber & Screenplay Instances
 orchestrator = OrchestratorAgent()
 translation_service = CinemaTranslationService()
 voice_service = CinemaVoiceService()
 cinema_service = MultimodalCinemaService()
+cyber_service = CyberGovernanceService()
+screenplay_service = ScreenplayService()
 
 # In-Memory Sample Incident Store (Replaced by Firestore/BigQuery in Production)
 MOCK_INCIDENTS: dict[str, StudioIncident] = {
@@ -455,6 +471,44 @@ def assemble_cinema_reel(payload: dict[str, Any]) -> CinematicReelAssembly:
     raw_score = payload.get("lyria_score")
     score = LyriaScoreGenerationResult(**raw_score) if isinstance(raw_score, dict) else None
     return cinema_service.assemble_movie_reel(title, shots, score)
+
+
+@app.post("/api/governance/cyber/audit")
+def audit_cyber_security(request: CyberThreatAuditRequest) -> CyberThreatAuditResult:
+    """Audits telemetry payload, command, or prompt via Gemini 3.8 Flash Cyber."""
+    return cyber_service.audit_cyber_threat(request)
+
+
+@app.post("/api/governance/content/protect")
+def protect_media_content(request: ContentProtectionRequest) -> ContentProtectionResult:
+    """Audits media assets for AI provenance, SynthID watermarking, piracy, and illicit content."""
+    return cyber_service.protect_content(request)
+
+
+@app.post("/api/governance/copyright/plagiarism-check")
+def check_copyright_plagiarism(
+    request: ScriptPlagiarismCheckRequest,
+) -> ScriptPlagiarismCheckResult:
+    """Audits screenplay text for copyright similarity, prior art, and patent infringement."""
+    return cyber_service.check_script_plagiarism(request)
+
+
+@app.post("/api/cinema/story/generate-premise")
+def generate_cinematic_story_premise(request: StoryPremiseRequest) -> StoryPremiseResult:
+    """Generates three-act story premise and character archetypes via StoryWriterOps."""
+    return screenplay_service.generate_story_premise(request)
+
+
+@app.post("/api/cinema/screenplay/format-scene")
+def format_cinematic_scene(request: ScreenplaySceneRequest) -> ScreenplaySceneResult:
+    """Formats industry-standard screenplay scene with localized dialogue via ScreenplayOps."""
+    return screenplay_service.format_screenplay_scene(request)
+
+
+@app.get("/api/cinema/screenplay/shot-list/{scene_id}")
+def get_scene_shot_list(scene_id: str) -> list[dict[str, Any]]:
+    """Generates director's cut shot list with camera moves and focal lengths."""
+    return screenplay_service.generate_shot_list(scene_id)
 
 
 # Mount static frontend assets for web browser visualization and judge evaluation

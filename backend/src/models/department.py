@@ -45,6 +45,11 @@ class DepartmentEnum(str, Enum):
     OTT_DISTRIBUTION = "ott_distribution"
     MARKETING = "marketing"
     LEGAL = "legal"
+    STORY_WRITING = "story_writing"
+    SCREENPLAY = "screenplay"
+    DIALOGUE_WRITING = "dialogue_writing"
+    CYBER_GOVERNANCE = "cyber_governance"
+    COPYRIGHT_LEGAL = "copyright_legal"
 
 
 class DepartmentPersona(BaseModel):

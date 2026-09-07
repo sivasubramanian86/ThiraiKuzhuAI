@@ -10,10 +10,16 @@ from typing import AsyncGenerator
 from src.agents.subagents import (
     AnimationSakugaOpsSubAgent,
     AudioOpsSubAgent,
+    CinematographerLensSubAgent,
+    CopyrightLegalOpsSubAgent,
+    DialogueWriterOpsSubAgent,
     DirectorOpsSubAgent,
+    FilmEditorOpsSubAgent,
     MartialArtsOpsSubAgent,
     OTTOpsSubAgent,
     ProducerOpsSubAgent,
+    ScreenplayOpsSubAgent,
+    StoryWriterOpsSubAgent,
     VFXOpsSubAgent,
 )
 from src.config.settings import get_settings
@@ -47,6 +53,12 @@ class OrchestratorAgent:
         self.sakuga_ops = AnimationSakugaOpsSubAgent()
         self.vfx_ops = VFXOpsSubAgent()
         self.audio_ops = AudioOpsSubAgent()
+        self.story_ops = StoryWriterOpsSubAgent()
+        self.dialogue_ops = DialogueWriterOpsSubAgent()
+        self.screenplay_ops = ScreenplayOpsSubAgent()
+        self.editor_ops = FilmEditorOpsSubAgent()
+        self.cinematographer_ops = CinematographerLensSubAgent()
+        self.legal_ops = CopyrightLegalOpsSubAgent()
 
     async def route(
         self, request: InvestigationRequest, incident: StudioIncident
@@ -74,7 +86,28 @@ class OrchestratorAgent:
 
         # Step 2: Department-specific telemetry triage via specialized subagents
         fault_node = incident.telemetry.grafana_alert_uid.lower()
-        if incident.genre_track == CinemaGenreTrack.MARTIAL_ARTS_WUXIA:
+        if DepartmentEnum.STORY_WRITING in incident.departments_impacted:
+            circuit_breaker.record_tool_invocation("StoryWriterOps.investigate")
+            triage_step = await self.story_ops.investigate(incident)
+        elif DepartmentEnum.SCREENPLAY in incident.departments_impacted:
+            circuit_breaker.record_tool_invocation("ScreenplayOps.investigate")
+            triage_step = await self.screenplay_ops.investigate(incident)
+        elif DepartmentEnum.DIALOGUE_WRITING in incident.departments_impacted:
+            circuit_breaker.record_tool_invocation("DialogueWriterOps.investigate")
+            triage_step = await self.dialogue_ops.investigate(incident)
+        elif DepartmentEnum.EDITING in incident.departments_impacted:
+            circuit_breaker.record_tool_invocation("FilmEditorOps.investigate")
+            triage_step = await self.editor_ops.investigate(incident)
+        elif DepartmentEnum.CINEMATOGRAPHY in incident.departments_impacted:
+            circuit_breaker.record_tool_invocation("CinematographerLens.investigate")
+            triage_step = await self.cinematographer_ops.investigate(incident)
+        elif (
+            DepartmentEnum.COPYRIGHT_LEGAL in incident.departments_impacted
+            or DepartmentEnum.LEGAL in incident.departments_impacted
+        ):
+            circuit_breaker.record_tool_invocation("CopyrightLegalOps.investigate")
+            triage_step = await self.legal_ops.investigate(incident)
+        elif incident.genre_track == CinemaGenreTrack.MARTIAL_ARTS_WUXIA:
             circuit_breaker.record_tool_invocation("MartialArtsOps.investigate")
             triage_step = await self.martial_arts_ops.investigate(incident)
         elif incident.genre_track == CinemaGenreTrack.ANIMATION:

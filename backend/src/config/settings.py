@@ -38,6 +38,18 @@ class Settings(BaseSettings):
     DIRECTOR_MODEL: str = Field(
         default="gemini-3.8-pro-001", description="Deep reasoning director orchestration model"
     )
+    CYBER_MODEL: str = Field(
+        default="gemini-3.8-flash-cyber",
+        description="Specialized cybersecurity, threat detection and governance audit model",
+    )
+    VEO_MODEL: str = Field(
+        default="veo-2.0-generate-001",
+        description="Google DeepMind Veo 2 video generation model",
+    )
+    LYRIA_MODEL: str = Field(
+        default="lyria-orchestral-001",
+        description="Google Lyria orchestral music and spatial Foley synthesis model",
+    )
 
     # Grafana Cloud MCP Partner Track
     GRAFANA_URL: str = Field(

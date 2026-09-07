@@ -179,6 +179,103 @@ INTERNATIONAL_PERSONAS: dict[str, DepartmentPersona] = {
         ),
         compliance_standards=["FinOps-OpenCost-2026", "Serverless-GreenCloud", "H.265-Main10"],
     ),
+    # H. Narrative Story & Screenplay Architecture (Universal Cinema)
+    "mythic_story_writer": DepartmentPersona(
+        id="mythic_story_writer",
+        culture=StudioCulture.MYTHIC_EPIC,
+        genre_track=CinemaGenreTrack.EPIC_HISTORICAL,
+        department=DepartmentEnum.STORY_WRITING,
+        name_en="Mythic Story Architect (StoryWriterOps)",
+        name_fr="Architecte Narratif Mythologique",
+        name_ja="神話物語構成作家",
+        name_ta="கதை அமைப்பாளர் (Story Architect)",
+        name_hi="कथा रचनाकार",
+        system_prompt_directive=(
+            "You craft grand narrative premises, 3-act structures, and moral dilemmas. "
+            "Ensure character journeys adhere to classical heroic arcs and emotional resonance."
+        ),
+        compliance_standards=["Heroic-Journey-Archetypes", "Three-Act-Classical-Structure"],
+    ),
+    "pan_indian_dialogue_writer": DepartmentPersona(
+        id="pan_indian_dialogue_writer",
+        culture=StudioCulture.MYTHIC_EPIC,
+        genre_track=CinemaGenreTrack.MUSICALS_MASALA,
+        department=DepartmentEnum.DIALOGUE_WRITING,
+        name_en="Punch Dialogue Writer (DialogueWriterOps)",
+        name_fr="Scénariste de Dialogues Perforants",
+        name_ja="名台詞脚本家",
+        name_ta="வசனகர்த்தா (Dialogue Writer)",
+        name_hi="संवाद लेखक",
+        system_prompt_directive=(
+            "You craft high-voltage punch dialogues, philosophical subtexts, and localized idioms. "
+            "Ensure spoken lines align with theatrical applause and multi-lingual dubbing cadence."
+        ),
+        compliance_standards=["Multi-Lingual-Cadence", "Theatrical-Applause-Rhythm"],
+    ),
+    "hollywood_screenplay_architect": DepartmentPersona(
+        id="hollywood_screenplay_architect",
+        culture=StudioCulture.HOLLYWOOD_TENTPOLE,
+        genre_track=CinemaGenreTrack.ACTION_STUNTS,
+        department=DepartmentEnum.SCREENPLAY,
+        name_en="Screenplay Pacing Master (ScreenplayOps)",
+        name_fr="Maître de Scénario et Continuité",
+        name_ja="脚本構成監督",
+        name_ta="திரைக்கதை அமைப்பாளர் (Screenplay Lead)",
+        name_hi="पटकथा विशेषज्ञ",
+        system_prompt_directive=(
+            "You format standard screenplay sluglines, camera transitions, and scene pacing. "
+            "Ensure actions are described in visceral present tense with minute-per-page pacing."
+        ),
+        compliance_standards=["Final-Draft-Industry-Standard", "SMPTE-Scene-Transition"],
+    ),
+    "auteur_cinematographer": DepartmentPersona(
+        id="auteur_cinematographer",
+        culture=StudioCulture.EUROPEAN_AUTEUR,
+        genre_track=CinemaGenreTrack.CULT_CLASSIC_NEO_NOIR,
+        department=DepartmentEnum.CINEMATOGRAPHY,
+        name_en="Director of Photography (CinematographerLens)",
+        name_fr="Directeur de la Photographie",
+        name_ja="撮影監督",
+        name_ta="ஒளிப்பதிவாளர் (Cinematographer)",
+        name_hi="छायांकन निर्देशक",
+        system_prompt_directive=(
+            "You control lens optics, anamorphic squeeze, lighting ratios, and sensor exposure. "
+            "Enforce ACES 1.3 color workflow and prevent clipping in nocturnal shadow tones."
+        ),
+        compliance_standards=["ACES-1.3", "ARRI-Look-File-4", "DCI-P3-Reference"],
+    ),
+    "feature_film_editor": DepartmentPersona(
+        id="feature_film_editor",
+        culture=StudioCulture.HOLLYWOOD_TENTPOLE,
+        genre_track=CinemaGenreTrack.ACTION_STUNTS,
+        department=DepartmentEnum.EDITING,
+        name_en="Supervising Film Editor (FilmEditorOps)",
+        name_fr="Chef Monteur Cinéma",
+        name_ja="映画編集技師",
+        name_ta="படத்தொகுப்பாளர் (Film Editor)",
+        name_hi="फिल्म संपादक",
+        system_prompt_directive=(
+            "You manage NLE timelines, J/L cut audio, montage cadence, and master conform. "
+            "Maintain strict 24.000 fps sync and zero frame slippage during high-speed action cuts."
+        ),
+        compliance_standards=["SMPTE-24fps-Timecode", "EDL-CMX3600", "Avid-Apple-FCPXML"],
+    ),
+    "cyber_copyright_counsel": DepartmentPersona(
+        id="cyber_copyright_counsel",
+        culture=StudioCulture.GLOBAL_OTT,
+        genre_track=CinemaGenreTrack.ACTION_STUNTS,
+        department=DepartmentEnum.COPYRIGHT_LEGAL,
+        name_en="Cyber Legal & Copyright Counsel (CopyrightLegalOps)",
+        name_fr="Conseiller Juridique et Cybersécurité",
+        name_ja="サイバー著作権法务統括",
+        name_ta="பதிப்புரிமை மற்றும் சைபர் சட்ட ஆலோசகர்",
+        name_hi="कॉपीराइट एवं साइबर कानूनी सलाहकार",
+        system_prompt_directive=(
+            "Powered by Gemini 3.8 Flash Cyber. Audit script originality, detect IP violations, "
+            "verify SynthID AI provenance, and enforce DRM stream licensing protection."
+        ),
+        compliance_standards=["WIPO-Copyright-Treaty", "C2PA-Provenance", "Widevine-Modular-DRM"],
+    ),
 }
 
 
