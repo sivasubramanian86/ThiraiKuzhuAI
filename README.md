@@ -5,26 +5,31 @@
 > **Powered by**: **Gemini 3.8 Flash (`gemini-3.8-flash-001`)**, **Gemini 3.8 Pro (`gemini-3.8-pro-001`)**, and **Gemini 3.8 Flash Cyber (`gemini-3.8-flash-cyber`)** via Google Cloud Agent Development Kit (ADK) + Hosted Grafana Cloud MCP Server.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Hosted%20App-Cloud%20Run%20(us--central1)-brightgreen.svg)](https://thirai-kuzhu-ai-967518492968.us-central1.run.app)
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-19.0%2B-61DAFB.svg)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.2%2B-646CFF.svg)](https://vitejs.dev/)
 [![Poetry](https://img.shields.io/badge/Poetry-2.4%2B-blueviolet.svg)](https://python-poetry.org/)
 [![uv](https://img.shields.io/badge/uv-0.9%2B-ff69b4.svg)](https://astral.sh/uv)
-[![Tests Coverage](https://img.shields.io/badge/Coverage-100%25%20(111%2F111)-brightgreen.svg)](backend/pyproject.toml)
+[![Tests Coverage](https://img.shields.io/badge/Coverage-100%25%20(133%2F133%20Pytest%20%2B%2063%20Vitest)-brightgreen.svg)](backend/pyproject.toml)
 [![Security](https://img.shields.io/badge/Bandit-Passing%20(0%20issues)-brightgreen.svg)](backend/pyproject.toml)
 [![Grafana MCP](https://img.shields.io/badge/Grafana%20Cloud-MCP%20Streamable%20HTTP-F46800.svg)](https://mcp.grafana.com/mcp)
-[![Google Cloud Run](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run%20Gen2-4285F4.svg)](infra/cloudrun.yaml)
+[![Google Cloud Run](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run%20Gen2-4285F4.svg)](https://thirai-kuzhu-ai-967518492968.us-central1.run.app)
 
 ---
 
 ## 🎬 What is Thirai Kuzhu AI?
 
-In the modern blockbuster era, films do not fail because of bad scripts—they fail because of broken pipelines. When a Pan-Indian midnight premiere drops and CDN 504 errors surge, engineers see raw error codes, but the creative team sees hundreds of thousands of disappointed fans and millions of dollars in box-office bleed.
+In the modern blockbuster era, films do not fail because of bad scripts—they fail because of broken pipelines. When a high-stakes midnight streaming premiere drops and CDN 504 errors surge, engineers see raw error codes, but the creative team sees hundreds of thousands of disappointed fans and millions of dollars in box-office bleed.
 
 **Thirai Kuzhu AI** (Tamil: *திரை குழு* — "Screen Crew") is an autonomous, multi-agent cinema operations, multimodal generation, and SRE platform. It acts as a complete virtual movie studio crew:
-1. **Autonomous Filmmaking & Multimodal Generation**: Ingests screenplay text, lighting keyframes, and acoustic stems to generate 4K/8K photorealistic scene sequences via **Google DeepMind Veo 2** and synchronized symphonic scores with Dolby Atmos Foley via **Google Lyria**.
-2. **Cinematic Observability**: Bridges creative production and cloud infrastructure by translating Prometheus metrics (Mimir), Loki logs, and Tempo traces into on-set director directives across 9 specialized studio departments and 6 global cinema tracks (Action/Stunts, Animation/Sakuga, Wuxia/Martial Arts, Epics, Neo-Noir, and Masala).
+1. **369 Personas across 17 Studio Bands**: Complete crew topology (Bands A through Q) with 1-click Firebase & GCP IAM persona switching and custom cinema themes.
+2. **Runtime Grafana Cloud MCP Integration**: Real-time Streamable HTTP connection to `https://mcp.grafana.com/mcp` querying PromQL, LogQL, and Tempo traces, with automated live Grafana dashboard incident annotations.
+3. **Section 19 Contract & Dynamic SME Spawning**: On-demand materialization of niche domain experts with strict non-blocking advisory guardrails (`can_block: false`).
+4. **Adversarial Red-Team Antagonist Lab**: 5 chaos agents stress-testing schedule overruns, copyright collisions, critic sentiment collapse, piracy exfiltration, and weather damage.
+5. **Multimodal Generation & Content Shield**: **Google DeepMind Veo 2** 4K UHD video synthesis, **Lyria** 4-stem Atmos score generator, **SynthID** imperceptible watermarking, and **C2PA** cryptographic hardware camera manifest verification.
+6. **Anime Character Vault & Virtual Art Department**: Open-source dataset grounding (**Danbooru2024**, **AniList**, **AnimeFace**, **OpenArt 3D Cel-Mesh**) with 24fps rigging checks, and **Google Imagen 3** / **Nano Banana** CAD blueprint architectural stages.
 
 ---
 
