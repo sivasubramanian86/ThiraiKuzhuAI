@@ -27,7 +27,98 @@ const BAND_METADATA = {
   ANTG: { name: 'Adversarial Red-Team', icon: '🛡️' }
 };
 
-export function CrewPersonaLounge({ i18n = {} }) {
+const BAND_TRANSLATIONS = {
+  ta: {
+    ALL: 'அனைத்து பாத்திரங்கள்',
+    A: 'நிர்வாகம் & தயாரிப்பு',
+    B: 'இயக்கம்',
+    C: 'திரைக்கதை & கதை',
+    D: 'நடிகர்கள் & தேர்வு',
+    E: 'ஒளிப்பதிவு & கேமரா',
+    F: 'தயாரிப்பு வடிவமைப்பு & கலை',
+    G: 'ஆடை & ஒப்பனை',
+    H: 'ஒலி & ஃபோலே',
+    I: 'சண்டைப்பயிற்சி & ஆயுதங்கள்',
+    J: 'VFX & சிறப்பு விளைவுகள்',
+    K: 'படத்தொகுப்பு',
+    L: 'இசை & பாடல்கள்',
+    M: 'டிஐ & கலரிங்',
+    N: 'விநியோகம் & திரையிடல்',
+    O: 'சட்டம் & தணிக்கை',
+    P: 'விளம்பரம் & மார்க்கெட்டிங்',
+    Q: 'மெய்நிகர் தயாரிப்பு & GenAI',
+    COMP: 'கூட்டுப் பாத்திரங்கள்',
+    ANTG: 'எதிரணி சோதனை'
+  },
+  hi: {
+    ALL: 'सभी पात्र',
+    A: 'कार्यकारी एवं उत्पादन',
+    B: 'निर्देशन',
+    C: 'पटकथा एवं कहानी',
+    D: 'कास्टिंग एवं प्रतिभा',
+    E: 'छायांकन एवं कैमरा',
+    F: 'कला एवं प्रोडक्शन डिजाइन',
+    G: 'पोशाक एवं श्रृंगार',
+    H: 'ध्वनि एवं फोले',
+    I: 'स्टंट एवं एक्शन',
+    J: 'वीएफएक्स एवं विशेष प्रभाव',
+    K: 'संपादन',
+    L: 'संगीत एवं गीत',
+    M: 'डीआई एवं कलरिंग',
+    N: 'वितरण एवं प्रदर्शन',
+    O: 'कानूनी एवं सेंसर',
+    P: 'विपणन एवं प्रचार',
+    Q: 'वर्चुअल प्रोडक्शन एवं GenAI',
+    COMP: 'समग्र पात्र',
+    ANTG: 'प्रतिकूल रेड-टीम'
+  },
+  ja: {
+    ALL: '全ペルソナ',
+    A: '製作総指揮・プロデュース',
+    B: '監督・演出',
+    C: '脚本・ストーリー',
+    D: 'キャスティング・出演者',
+    E: '撮影・カメラ',
+    F: '美術・プロダクションデザイン',
+    G: '衣装・ヘアメイク',
+    H: '音響・フォーリー',
+    I: 'スタント・殺陣・操演',
+    J: 'VFX・特撮・CG',
+    K: '編集・ポストプロダクション',
+    L: '音楽・作曲・歌曲',
+    M: 'カラコレ・DI・マスタリング',
+    N: '配給・興行',
+    O: '法務・権利・審査',
+    P: '宣伝・PR・マーケティング',
+    Q: 'バーチャルプロダクション・GenAI',
+    COMP: 'クロスバンド複合ロール',
+    ANTG: '敵対的レッドチーム'
+  },
+  fr: {
+    ALL: 'Tous les Personas',
+    A: 'Production & Direction Générale',
+    B: 'Mise en Scène & Réalisation',
+    C: 'Scénario & Narration',
+    D: 'Casting & Acteurs',
+    E: 'Photographie & Cadre',
+    F: 'Décors & Direction Artistique',
+    G: 'Costumes & Maquillage',
+    H: 'Son & Bruitage',
+    I: 'Cascades & Armurerie',
+    J: 'VFX & Effets Numériques',
+    K: 'Montage & Post-Production',
+    L: 'Musique & Bandes Originales',
+    M: 'Étalonnage & Mastering',
+    N: 'Distribution & Exploitation',
+    O: 'Juridique & Classification',
+    P: 'Marketing & Presse',
+    Q: 'Production Virtuelle & GenAI',
+    COMP: 'Rôles Composites',
+    ANTG: 'Red-Team Adversariale'
+  }
+};
+
+export function CrewPersonaLounge({ i18n = {}, language = 'en' }) {
   const { currentPersona, loginAsCrewPersona } = useAuth();
   const { setCinemaTheme } = useTheme();
 
@@ -144,7 +235,15 @@ export function CrewPersonaLounge({ i18n = {} }) {
           <input
             type="text"
             className="lounge-search-input"
-            placeholder="Search by ID (e.g. A01, E23), title, tool (e.g. grafana, ffmpeg), or mandate..."
+            placeholder={
+              language === 'ta'
+                ? 'ஐடி (A01, E23), தலைப்பு, அல்லது கட்டளை மூலம் தேடுங்கள்...'
+                : language === 'hi'
+                ? 'आईडी (A01, E23), शीर्षक या निर्देश द्वारा खोजें...'
+                : language === 'ja'
+                ? 'ID (A01, E23)、役職、ツール、または職務で検索...'
+                : 'Search by ID (e.g. A01, E23), title, tool (e.g. grafana, ffmpeg), or mandate...'
+            }
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -159,6 +258,7 @@ export function CrewPersonaLounge({ i18n = {} }) {
               ? personasList.length
               : personasList.filter((p) => p.band === bandKey).length;
             const isActive = selectedBand === bandKey;
+            const localizedName = (BAND_TRANSLATIONS[language] && BAND_TRANSLATIONS[language][bandKey]) || meta.name;
             return (
               <button
                 key={bandKey}
@@ -169,7 +269,7 @@ export function CrewPersonaLounge({ i18n = {} }) {
               >
                 <span className="chip-icon">{meta.icon}</span>
                 <span className="chip-code">{bandKey}</span>
-                <span className="chip-name">{meta.name}</span>
+                <span className="chip-name">{localizedName}</span>
                 <span className="chip-count">({count})</span>
               </button>
             );
@@ -181,7 +281,11 @@ export function CrewPersonaLounge({ i18n = {} }) {
       <div className="personas-cards-grid">
         {filteredPersonas.map((persona) => {
           const isCurrent = currentPersona?.id === persona.id;
-          const bandInfo = BAND_METADATA[persona.band] || { icon: '🎬', name: persona.band };
+          const bandMeta = BAND_METADATA[persona.band] || { icon: '🎬', name: persona.band };
+          const bandInfo = {
+            icon: bandMeta.icon,
+            name: (BAND_TRANSLATIONS[language] && BAND_TRANSLATIONS[language][persona.band]) || bandMeta.name
+          };
           return (
             <div
               key={persona.id}

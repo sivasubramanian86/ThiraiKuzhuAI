@@ -16,9 +16,9 @@
 [![Security](https://img.shields.io/badge/Bandit-Passing%20(0%20issues)-brightgreen.svg)](backend/pyproject.toml)
 [![Grafana MCP](https://img.shields.io/badge/Grafana%20Cloud-MCP%20Streamable%20HTTP-F46800.svg)](https://mcp.grafana.com/mcp)
 [![Google Cloud Run](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run%20Gen2-4285F4.svg)](https://thirai-kuzhu-ai-967518492968.us-central1.run.app)
-[![YouTube Demo](https://img.shields.io/badge/YouTube-3--Minute%20Demo%20Video-FF0000.svg?logo=youtube&logoColor=white)](https://youtu.be/YOUR_YOUTUBE_VIDEO_ID)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-3--Minute%20Demo%20Video-FF0000.svg?logo=youtube&logoColor=white)](https://youtu.be/-hUuleT4V9I)
 
-> 📺 **Official 3-Minute YouTube Demo Video**: [Watch Thirai Kuzhu AI in Action](https://youtu.be/YOUR_YOUTUBE_VIDEO_ID) *(Replace with uploaded YouTube link)*  
+> 📺 **Official 3-Minute YouTube Demo Video**: [Watch Thirai Kuzhu AI in Action](https://youtu.be/-hUuleT4V9I)  
 > 🌐 **Live Production Cloud Run Application**: [https://thirai-kuzhu-ai-967518492968.us-central1.run.app](https://thirai-kuzhu-ai-967518492968.us-central1.run.app)
 
 ---

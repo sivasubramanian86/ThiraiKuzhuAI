@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
 
-const SHIELD_TABS = [
-  { id: 'piracy', label: '🏴‍☠️ Piracy & Watermark Detection' },
-  { id: 'deepfake', label: '🔍 AI Deepfake & SynthID Provenance' },
-  { id: 'patent', label: '⚖️ Patent & Copyright Protection' }
-];
+const SHIELD_TABS_MAP = {
+  en: [
+    { id: 'piracy', label: '🏴‍☠️ Piracy & Watermark Detection' },
+    { id: 'deepfake', label: '🔍 AI Deepfake & SynthID Provenance' },
+    { id: 'patent', label: '⚖️ Patent & Copyright Protection' }
+  ],
+  ta: [
+    { id: 'piracy', label: '🏴‍☠️ திருட்டு & வாட்டர்மார்க் கண்டறிதல்' },
+    { id: 'deepfake', label: '🔍 AI டீப்ஃபேக் & SynthID சரிபார்ப்பு' },
+    { id: 'patent', label: '⚖️ காப்புரிமை & பதிப்புரிமை பாதுகாப்பு' }
+  ],
+  hi: [
+    { id: 'piracy', label: '🏴‍☠️ पायरेसी एवं वॉटरमार्क पहचान' },
+    { id: 'deepfake', label: '🔍 एआई डीपफेक एवं SynthID सत्यापन' },
+    { id: 'patent', label: '⚖️ पेटेंट एवं कॉपीराइट सुरक्षा' }
+  ],
+  ja: [
+    { id: 'piracy', label: '🏴‍☠️ 海賊版・透かし検出' },
+    { id: 'deepfake', label: '🔍 AIディープフェイク・SynthID真正性' },
+    { id: 'patent', label: '⚖️ 特許・著作権保護' }
+  ],
+  fr: [
+    { id: 'piracy', label: '🏴‍☠️ Détection Piratage & Filigrane' },
+    { id: 'deepfake', label: '🔍 Deepfake IA & Provenance SynthID' },
+    { id: 'patent', label: '⚖️ Protection Brevets & Copyright' }
+  ]
+};
 
-export function ContentShieldStudio({ i18n = {} }) {
+export function ContentShieldStudio({ i18n = {}, language = 'en' }) {
+  const tabs = SHIELD_TABS_MAP[language] || SHIELD_TABS_MAP.en;
   const [activeTab, setActiveTab] = useState('piracy');
   const [isRunningAudit, setIsRunningAudit] = useState(false);
   const [auditResults, setAuditResults] = useState(null);
@@ -67,7 +90,7 @@ export function ContentShieldStudio({ i18n = {} }) {
 
       {/* Tabs */}
       <div className="shield-tabs-bar" role="tablist">
-        {SHIELD_TABS.map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.id}
             role="tab"

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import { getSettingsContent } from '../i18n/settingsContent';
 
-export function SettingsStudio({ i18n = {} }) {
+export function SettingsStudio({ i18n = {}, language = 'en' }) {
+  const content = getSettingsContent(language);
   const { mode, toggleMode, cinemaTheme, setCinemaTheme, CINEMA_PALETTES } = useTheme();
   const { currentUser, userRole, currentPersona, logout } = useAuth();
 
@@ -25,14 +27,14 @@ export function SettingsStudio({ i18n = {} }) {
       {/* Header */}
       <div className="settings-header-glass">
         <div className="settings-title-group">
-          <h2>⚙️ {i18n.settings_title || 'Studio Settings & Configuration'}</h2>
+          <h2>⚙️ {content.settingsTitle || i18n.settingsTitle || i18n.settings_title || 'Studio Settings & Configuration'}</h2>
           <p>
-            {i18n.settings_desc || 'Configure cinematic interface palettes, walkie-talkie voice synthesis, Gemini model tiers, and Firebase authentication.'}
+            {content.settingsDesc || i18n.settingsDesc || i18n.settings_desc || 'Configure cinematic interface palettes, walkie-talkie voice synthesis, Gemini model tiers, and Firebase authentication.'}
           </p>
         </div>
         {saveToast && (
           <div className="save-toast-pill">
-            ✓ Settings saved to local studio profile
+            {content.savedToast || '✓ Settings saved to local studio profile'}
           </div>
         )}
       </div>
@@ -40,17 +42,17 @@ export function SettingsStudio({ i18n = {} }) {
       <form onSubmit={handleSaveSettings} className="settings-form-layout">
         {/* Section 1: Appearance & Cinema Themes */}
         <div className="settings-card-glass">
-          <h3>🎨 Cinematic Theme & Appearance</h3>
-          <p className="hint-text">Choose from 6 calibrated cinema color palettes and toggle dark/light mode:</p>
+          <h3>{content.themeSectionTitle || '🎨 Cinematic Theme & Appearance'}</h3>
+          <p className="hint-text">{content.themeSectionHint || 'Choose from 6 calibrated cinema color palettes and toggle dark/light mode:'}</p>
 
           <div className="mode-toggle-row">
-            <span>Interface Lighting Mode:</span>
+            <span>{content.lightingModeLabel || 'Interface Lighting Mode:'}</span>
             <button
               type="button"
               className={`mode-btn ${mode === 'dark' ? 'active' : ''}`}
               onClick={toggleMode}
             >
-              {mode === 'dark' ? '🌙 Dark Mode (Default)' : '☀️ Light Mode'}
+              {mode === 'dark' ? (content.darkModeBtn || '🌙 Dark Mode (Default)') : (content.lightModeBtn || '☀️ Light Mode')}
             </button>
           </div>
 
@@ -77,11 +79,11 @@ export function SettingsStudio({ i18n = {} }) {
 
         {/* Section 2: Walkie-Talkie & Audio Settings */}
         <div className="settings-card-glass">
-          <h3>📻 Radio Walkie-Talkie & Sound Synthesis</h3>
-          <p className="hint-text">Adjust simulated studio on-set audio and multi-agent radio transmission:</p>
+          <h3>{content.walkieSectionTitle || '📻 Radio Walkie-Talkie & Sound Synthesis'}</h3>
+          <p className="hint-text">{content.walkieSectionHint || 'Adjust simulated studio on-set audio and multi-agent radio transmission:'}</p>
 
           <div className="form-group-setting">
-            <label htmlFor="tts-voice-select">TTS Voice Synthesis Profile:</label>
+            <label htmlFor="tts-voice-select">{content.ttsVoiceLabel || 'TTS Voice Synthesis Profile:'}</label>
             <select
               id="tts-voice-select"
               className="select-input"
@@ -96,7 +98,7 @@ export function SettingsStudio({ i18n = {} }) {
           </div>
 
           <div className="form-group-setting">
-            <label htmlFor="volume-range">Walkie-Talkie Master Volume ({volume}%):</label>
+            <label htmlFor="volume-range">{content.volumeLabel || 'Walkie-Talkie Master Volume'} ({volume}%):</label>
             <input
               id="volume-range"
               type="range"
@@ -116,19 +118,19 @@ export function SettingsStudio({ i18n = {} }) {
               onChange={(e) => setRadioStatic(e.target.checked)}
             />
             <label htmlFor="static-check">
-              Enable authentic radio squelch & on-set static sound effects
+              {content.enableStaticLabel || 'Enable authentic radio squelch & on-set static sound effects'}
             </label>
           </div>
         </div>
 
         {/* Section 3: Gemini Model Tier Allocation */}
         <div className="settings-card-glass">
-          <h3>🧠 Gemini Model Tiering & Context Caching</h3>
-          <p className="hint-text">Configure AI model assignments based on operational budget and reasoning depth:</p>
+          <h3>{content.modelsSectionTitle || '🧠 Gemini Model Tiering & Context Caching'}</h3>
+          <p className="hint-text">{content.modelsSectionHint || 'Configure AI model assignments based on operational budget and reasoning depth:'}</p>
 
           <div className="tiers-grid">
             <div className="tier-setting-item">
-              <label>Cheap Tier (Telemetry & Rapid Classification):</label>
+              <label>{content.cheapTierLabel || 'Cheap Tier (Telemetry & Rapid Classification):'}</label>
               <select
                 className="select-input"
                 value={modelCheap}
@@ -140,7 +142,7 @@ export function SettingsStudio({ i18n = {} }) {
             </div>
 
             <div className="tier-setting-item">
-              <label>Standard Tier (Production & Screenplay Tasks):</label>
+              <label>{content.standardTierLabel || 'Standard Tier (Production & Screenplay Tasks):'}</label>
               <select
                 className="select-input"
                 value={modelStandard}
@@ -152,7 +154,7 @@ export function SettingsStudio({ i18n = {} }) {
             </div>
 
             <div className="tier-setting-item">
-              <label>Reasoning Tier (Executive Veto & Arbitration):</label>
+              <label>{content.reasoningTierLabel || 'Reasoning Tier (Executive Veto & Arbitration):'}</label>
               <select
                 className="select-input"
                 value={modelReasoning}
@@ -167,7 +169,7 @@ export function SettingsStudio({ i18n = {} }) {
 
         {/* Section 4: Firebase Authentication & Security */}
         <div className="settings-card-glass">
-          <h3>🔐 Firebase Authentication & Studio Security</h3>
+          <h3>{content.authSectionTitle || '🔐 Firebase Authentication & Studio Security'}</h3>
           <div className="auth-profile-summary">
             <div className="auth-avatar-circle">
               {currentUser?.photoURL ? (
@@ -177,24 +179,24 @@ export function SettingsStudio({ i18n = {} }) {
               )}
             </div>
             <div className="auth-details">
-              <h4>{currentUser?.displayName || 'Studio Guest'}</h4>
+              <h4>{currentUser?.displayName || content.guestUser || 'Studio Guest'}</h4>
               <p className="auth-email">{currentUser?.email || 'guest@thiraikuzhu.ai'}</p>
               <div className="auth-badges-row">
-                <span className="auth-role-tag">Role: {userRole}</span>
+                <span className="auth-role-tag">{content.roleLabel || 'Role:'} {userRole}</span>
                 {currentPersona && (
-                  <span className="auth-persona-tag">Persona: {currentPersona.id} ({currentPersona.title})</span>
+                  <span className="auth-persona-tag">{content.personaLabel || 'Persona:'} {currentPersona.id} ({currentPersona.title})</span>
                 )}
               </div>
             </div>
             <button type="button" className="btn-logout" onClick={logout}>
-              Sign Out
+              {content.signOutBtn || 'Sign Out'}
             </button>
           </div>
         </div>
 
         <div className="settings-submit-bar">
           <button type="submit" className="btn-save-all">
-            Save All Studio Preferences
+            {content.saveAllBtn || 'Save All Studio Preferences'}
           </button>
         </div>
       </form>
