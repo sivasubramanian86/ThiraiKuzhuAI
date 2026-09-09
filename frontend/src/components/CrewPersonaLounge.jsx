@@ -27,7 +27,7 @@ const BAND_METADATA = {
   ANTG: { name: 'Adversarial Red-Team', icon: '🛡️' }
 };
 
-export function CrewPersonaLounge() {
+export function CrewPersonaLounge({ i18n = {} }) {
   const { currentPersona, loginAsCrewPersona } = useAuth();
   const { setCinemaTheme } = useTheme();
 
@@ -47,42 +47,34 @@ export function CrewPersonaLounge() {
   }, []);
 
   const filteredPersonas = useMemo(() => {
+    const q = (searchQuery || '').toLowerCase().trim();
     return personasList.filter((p) => {
-      const matchesBand = selectedBand === 'ALL' || p.band === selectedBand;
-      const q = searchQuery.toLowerCase().trim();
-      const idStr = (p.id || '').toLowerCase();
-      const titleStr = (p.title || p.name || '').toLowerCase();
-      const mandateStr = (p.mandate || p.system_prompt || '').toLowerCase();
-      const matchesSearch =
+      const matchBand = selectedBand === 'ALL' || p.band === selectedBand;
+      const matchSearch =
         !q ||
-        idStr.includes(q) ||
-        titleStr.includes(q) ||
-        mandateStr.includes(q) ||
-        (Array.isArray(p.tools) && p.tools.some((t) => (t || '').toLowerCase().includes(q)));
-      return matchesBand && matchesSearch;
+        (p.id && p.id.toLowerCase().includes(q)) ||
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.department && p.department.toLowerCase().includes(q)) ||
+        (p.mandate && p.mandate.toLowerCase().includes(q));
+      return matchBand && matchSearch;
     });
   }, [personasList, selectedBand, searchQuery]);
 
   const handleSelectPersona = (p) => {
     setSelectedPersona(p);
+    setDebateResult(null);
   };
 
-  const handleLoginAs = (p) => {
-    loginAsCrewPersona({
-      id: p.id,
-      title: p.title || p.name || p.id,
-      band: p.band,
-      role: 'CREW'
-    });
-    // Dynamically adjust theme based on persona band
-    if (['A', 'O', 'N'].includes(p.band)) setCinemaTheme('legal-navy');
-    else if (['E', 'M'].includes(p.band)) setCinemaTheme('camera-tungsten');
+  const handleAssumeRole = (p) => {
+    loginAsCrewPersona(p);
+    if (['A', 'B'].includes(p.band)) setCinemaTheme('director-noir');
+    else if (['E', 'F'].includes(p.band)) setCinemaTheme('camera-tungsten');
     else if (['I', 'ANTG'].includes(p.band)) setCinemaTheme('stunt-hazard');
     else if (['J', 'Q'].includes(p.band)) setCinemaTheme('vfx-cyber');
     else if (['H', 'L'].includes(p.band)) setCinemaTheme('sound-emerald');
     else setCinemaTheme('director-noir');
   };
-
 
   const handleLaunchDebate = async () => {
     if (!selectedPersona || !opponentId) return;
@@ -119,9 +111,9 @@ export function CrewPersonaLounge() {
       {/* Lounge Header */}
       <div className="lounge-header-glass">
         <div className="lounge-title-group">
-          <h2>🎬 Crew Personas Lounge</h2>
+          <h2>👥 {i18n.crewLoungeTitle || 'Studio Screen Crew Personas Lounge'}</h2>
           <p>
-            Explore <strong>{personasList.length}</strong> production personas across 17 studio bands, cross-band composites, and adversarial red-team agents.
+            {i18n.crewLoungeDesc || `Explore ${personasList.length} production personas across 17 studio bands, cross-band composites, and adversarial red-team agents.`}
           </p>
         </div>
 

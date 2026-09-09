@@ -43,7 +43,7 @@ const FAQS = [
   }
 ];
 
-export function FAQHelp() {
+export function FAQHelp({ i18n = {} }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -63,9 +63,9 @@ export function FAQHelp() {
       {/* Header */}
       <div className="faq-header-glass">
         <div className="faq-title-group">
-          <h2>❓ Frequently Asked Questions & Studio Help</h2>
+          <h2>❓ {i18n.faq_title || 'Frequently Asked Questions & Studio Help'}</h2>
           <p>
-            Find comprehensive explanations of Thirai Kuzhu AI architecture, 17-band crew hierarchy, dialectical debate rules, and Grafana telemetry.
+            {i18n.faq_desc || 'Find comprehensive explanations of Thirai Kuzhu AI architecture, 17-band crew hierarchy, dialectical debate rules, and Grafana telemetry.'}
           </p>
         </div>
       </div>

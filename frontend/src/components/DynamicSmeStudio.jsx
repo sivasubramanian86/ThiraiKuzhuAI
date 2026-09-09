@@ -22,7 +22,7 @@ const SCREENPLAY_PRESETS = [
   }
 ];
 
-export function DynamicSmeStudio() {
+export function DynamicSmeStudio({ i18n = {} }) {
   const [sceneText, setSceneText] = useState(SCREENPLAY_PRESETS[0].scene);
   const [domainFocus, setDomainFocus] = useState(SCREENPLAY_PRESETS[0].domain);
   const [parentPersonaId, setParentPersonaId] = useState('C01');
@@ -59,9 +59,9 @@ export function DynamicSmeStudio() {
         mandate: `Provide precise domain counsel on ${domainFocus} authenticity, technical nomenclature, and era-specific workflow validation for this scene.`,
         authority_scope: 'advisory',
         can_block: false,
-        model_tier: 'standard',
-        tools: ['web_search', 'domain_knowledge_vault', 'screenplay_fact_check'],
-        system_prompt: `You are an elite subject-matter specialist in ${domainFocus}. Ground all technical feedback in verifiable peer-reviewed historical or physical realities. Advisory only (can_block: false).`
+        parent_persona_id: parentPersonaId,
+        confidence: 0.94,
+        rationale: 'Spawned under strict Section 19 advisory non-blocking protocol.'
       });
     } finally {
       setIsSpawning(false);
@@ -73,9 +73,9 @@ export function DynamicSmeStudio() {
       {/* Studio Header */}
       <div className="sme-header-glass">
         <div className="sme-title-group">
-          <h2>🧬 Dynamic Subject Matter Expert (SME) Studio</h2>
+          <h2>🧬 {i18n.smeStudioTitle || 'Dynamic Subject Matter Expert (SME) Studio'}</h2>
           <p>
-            Synthesize specialized technical and cultural advisors on-the-fly from screenplay scene requirements adhering to Section 19 architectural contract.
+            {i18n.smeStudioDesc || 'Synthesize specialized technical and cultural advisors on-the-fly from screenplay scene requirements adhering to Section 19 architectural contract.'}
           </p>
         </div>
         <div className="sme-contract-pill">

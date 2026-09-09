@@ -6,7 +6,7 @@ const SHIELD_TABS = [
   { id: 'patent', label: '⚖️ Patent & Copyright Protection' }
 ];
 
-export function ContentShieldStudio() {
+export function ContentShieldStudio({ i18n = {} }) {
   const [activeTab, setActiveTab] = useState('piracy');
   const [isRunningAudit, setIsRunningAudit] = useState(false);
   const [auditResults, setAuditResults] = useState(null);
@@ -54,9 +54,9 @@ export function ContentShieldStudio() {
       {/* Header */}
       <div className="obs-header-glass">
         <div className="obs-title-group">
-          <h2>🛡️ Content Shield & IP Governance Studio</h2>
+          <h2>🛡️ {i18n.contentShieldTitle || 'Content Shield & IP Governance Studio'}</h2>
           <p>
-            Autonomous anti-piracy leak tracking, Google SynthID watermark detection, AI deepfake provenance verification, and patent/copyright collision clearance.
+            {i18n.contentShieldDesc || 'Autonomous anti-piracy leak tracking, Google SynthID watermark detection, AI deepfake provenance verification, and patent/copyright collision clearance.'}
           </p>
         </div>
         <div className="mcp-badge-pill">

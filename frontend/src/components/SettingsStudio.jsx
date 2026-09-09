@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 
-export function SettingsStudio() {
+export function SettingsStudio({ i18n = {} }) {
   const { mode, toggleMode, cinemaTheme, setCinemaTheme, CINEMA_PALETTES } = useTheme();
   const { currentUser, userRole, currentPersona, logout } = useAuth();
 
@@ -25,9 +25,9 @@ export function SettingsStudio() {
       {/* Header */}
       <div className="settings-header-glass">
         <div className="settings-title-group">
-          <h2>⚙️ Studio Settings & Configuration</h2>
+          <h2>⚙️ {i18n.settings_title || 'Studio Settings & Configuration'}</h2>
           <p>
-            Configure cinematic interface palettes, walkie-talkie voice synthesis, Gemini model tiers, and Firebase authentication.
+            {i18n.settings_desc || 'Configure cinematic interface palettes, walkie-talkie voice synthesis, Gemini model tiers, and Firebase authentication.'}
           </p>
         </div>
         {saveToast && (

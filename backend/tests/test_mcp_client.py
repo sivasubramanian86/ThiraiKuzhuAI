@@ -206,3 +206,15 @@ async def test_mcp_client_retries_zero() -> None:
     )
     res = await client._post_mcp("tools/call", {"name": "query_prometheus"}, retries=0)
     assert res["result"]["status"] == "success"
+
+
+@pytest.mark.asyncio
+async def test_mcp_client_offline_mode() -> None:
+    """Tests client in explicit offline mode returns mock response directly."""
+    client = GrafanaMcpClient(
+        token="",
+        grafana_url="https://thiraikuzhu.grafana.net",
+    )
+    res = await client._post_mcp("tools/call", {"name": "query_prometheus"})
+    assert res["result"]["status"] == "success"
+

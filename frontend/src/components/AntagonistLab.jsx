@@ -39,7 +39,7 @@ const ANTAGONISTS = [
   }
 ];
 
-export function AntagonistLab() {
+export function AntagonistLab({ i18n = {} }) {
   const [selectedAntagonist, setSelectedAntagonist] = useState(ANTAGONISTS[0]);
   const [targetProduction, setTargetProduction] = useState('Chronicles of Surya: The Solar Gate');
   const [attackVector, setAttackVector] = useState(ANTAGONISTS[0].attack_vectors[0]);
@@ -97,13 +97,13 @@ export function AntagonistLab() {
       {/* Header */}
       <div className="antagonist-header-glass">
         <div className="antagonist-title-group">
-          <h2>🛡️ Red-Team Adversarial Antagonist Lab</h2>
+          <h2>🛡️ {i18n.antagonist_lab_title || 'Red-Team Adversarial Antagonist Lab'}</h2>
           <p>
-            Subject production plans, schedules, scripts, and media workflows to ruthless synthetic attack vectors to discover vulnerabilities before cameras roll.
+            {i18n.antagonist_lab_desc || 'Subject production plans, schedules, scripts, and media workflows to ruthless synthetic attack vectors to discover vulnerabilities before cameras roll.'}
           </p>
         </div>
         <div className="lab-badge-pill">
-          <span>5 Adversarial Red-Team Personas Active</span>
+          <span>{i18n.antagonists_active_badge || '5 Adversarial Red-Team Personas Active'}</span>
         </div>
       </div>
 

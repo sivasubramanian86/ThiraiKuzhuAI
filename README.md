@@ -16,6 +16,10 @@
 [![Security](https://img.shields.io/badge/Bandit-Passing%20(0%20issues)-brightgreen.svg)](backend/pyproject.toml)
 [![Grafana MCP](https://img.shields.io/badge/Grafana%20Cloud-MCP%20Streamable%20HTTP-F46800.svg)](https://mcp.grafana.com/mcp)
 [![Google Cloud Run](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run%20Gen2-4285F4.svg)](https://thirai-kuzhu-ai-967518492968.us-central1.run.app)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-3--Minute%20Demo%20Video-FF0000.svg?logo=youtube&logoColor=white)](https://youtu.be/YOUR_YOUTUBE_VIDEO_ID)
+
+> 📺 **Official 3-Minute YouTube Demo Video**: [Watch Thirai Kuzhu AI in Action](https://youtu.be/YOUR_YOUTUBE_VIDEO_ID) *(Replace with uploaded YouTube link)*  
+> 🌐 **Live Production Cloud Run Application**: [https://thirai-kuzhu-ai-967518492968.us-central1.run.app](https://thirai-kuzhu-ai-967518492968.us-central1.run.app)
 
 ---
 
@@ -159,8 +163,8 @@ The **Director's Cut Console** provides a unified obsidian glassmorphism workspa
    - Real-time Server-Sent Events (SSE) stream simulating on-set radio communications on Channel 1 (462.5625 MHz).
    - Zero-memory-leak frontend architecture with `AbortController` request cancellation and deterministic `EventSource.close()` teardowns.
 
-7. **22+ Languages Multi-Lingual Architecture**:
-   - Discrete modular localization architecture under `frontend/src/i18n/locales/` covering global and regional cinematic hubs (English, Tamil, Hindi, Telugu, Malayalam, Japanese, Korean, Chinese, French).
+7. **Universal 22-Language Localization Engine (with RTL Support)**:
+   - Dynamic per-language dictionary engine under `frontend/src/i18n/` providing live navigation, studio slate, headers, and controls localization across all 12 studios for 22 global and regional cinema languages: English, Tamil, Hindi, Telugu, Malayalam, Kannada, Bengali, Marathi, Punjabi, Gujarati, Japanese, Korean, Simplified Chinese, Traditional Chinese, French, German, Spanish, Italian, Russian, Portuguese, Arabic (with native bidirectional RTL layout switching), and Turkish.
 
 ---
 

@@ -28,7 +28,7 @@ export function AppShell({
   language,
   onChangeLanguage,
   supportedLanguages,
-  i18n,
+  i18n = {},
   children
 }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -36,6 +36,21 @@ export function AppShell({
 
   const { currentUser, userRole, currentPersona } = useAuth();
   const { mode, toggleMode, cinemaTheme, setCinemaTheme, CINEMA_PALETTES } = useTheme();
+
+  const navItems = [
+    { id: 'control_room', label: i18n.navControlRoom || 'Control Room', icon: '🎬', badge: 'LIVE' },
+    { id: 'crew_lounge', label: i18n.navCrewLounge || 'Crew Lounge', icon: '👥', badge: '369' },
+    { id: 'anime_vault', label: i18n.navAnimeVault || 'Anime Vault', icon: '🎌', badge: 'OS Data' },
+    { id: 'art_director', label: i18n.navArtDirector || 'Art Department', icon: '🎨', badge: 'Imagen 3' },
+    { id: 'sme_studio', label: i18n.navSmeStudio || 'Dynamic SME', icon: '🧬', badge: 'Sec 19' },
+    { id: 'antagonist_lab', label: i18n.navAntagonistLab || 'Red-Team Lab', icon: '🛡️', badge: 'Chaos' },
+    { id: 'multimodal_studio', label: i18n.navMultimodalStudio || 'MultiModal Studio', icon: '👁️', badge: 'Veo/Lyria' },
+    { id: 'content_shield', label: i18n.navContentShield || 'IP & Content Shield', icon: '🔒', badge: 'SynthID' },
+    { id: 'observability', label: i18n.navObservability || 'Grafana Telemetry', icon: '📊', badge: 'MCP' },
+    { id: 'faq_help', label: i18n.navFaqHelp || 'FAQ & Help', icon: '❓' },
+    { id: 'about', label: i18n.navAbout || 'About', icon: 'ℹ️' },
+    { id: 'settings', label: i18n.navSettings || 'Settings', icon: '⚙️' }
+  ];
 
   return (
     <div className="app-shell-container" data-sidebar-collapsed={sidebarCollapsed}>
@@ -67,8 +82,8 @@ export function AppShell({
           <div className="studio-slate-badge" title="Active Studio Stage & Scene Slate">
             <span className="slate-clapper" aria-hidden="true">🎬</span>
             <div className="slate-info">
-              <span className="slate-label">STUDIO STAGE A</span>
-              <span className="slate-track">Live Production Stream</span>
+              <span className="slate-label">{i18n.studioStageA || 'STUDIO STAGE A'}</span>
+              <span className="slate-track">{i18n.liveProduction || 'Live Production Stream'}</span>
             </div>
           </div>
 
@@ -165,7 +180,7 @@ export function AppShell({
             aria-label="Grafana Cloud MCP Streamable HTTP: Connected and Live"
           >
             <span className="pulse-dot" aria-hidden="true"></span>
-            <span className="status-text">Grafana MCP: LIVE</span>
+            <span className="status-text">{i18n.grafanaMcpLive || 'Grafana MCP: LIVE'}</span>
           </div>
         </div>
       </header>
@@ -179,7 +194,7 @@ export function AppShell({
           aria-label="Studio Main Navigation"
         >
           <div className="sidebar-nav-list">
-            {NAV_ITEMS.map((item) => {
+            {navItems.map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <button

@@ -36,7 +36,7 @@ const MOCK_LOKI_LOGS = [
   { time: '14:32:18.910', level: 'SUCCESS', msg: '[Grafana Annotation] Registered director mitigation annotation (ID: ann-774129) on cinema-stream-master.' }
 ];
 
-export function GrafanaObservability() {
+export function GrafanaObservability({ i18n = {} }) {
   const [selectedPreset, setSelectedPreset] = useState(PROMQL_PRESETS[0]);
   const [customQuery, setCustomQuery] = useState(PROMQL_PRESETS[0].query);
   const [queryResult, setQueryResult] = useState({
@@ -51,9 +51,10 @@ export function GrafanaObservability() {
     setCustomQuery(p.query);
     setQueryResult({
       status: 'success',
-      value: p.name.includes('VRAM') ? '0.982 (98.2% VRAM Filled)' :
-             p.name.includes('Clock') ? '48.4 ms desync' :
-             p.name.includes('Frame') ? '0.075 (7.5% drop)' : '0.128 (12.8% Error Burst)',
+      value: p.name.includes('VRAM') ? '0.982 (98.2% VRAM saturation)' :
+             p.name.includes('Clock') ? '48.2ms clock drift detected' :
+             p.name.includes('Frame') ? '0.075 (7.5% frame drop)' :
+             '0.128 (12.8% Error Burst)',
       timestamp: new Date().toISOString(),
       active_alerts: 1
     });
@@ -64,14 +65,14 @@ export function GrafanaObservability() {
       {/* Header */}
       <div className="obs-header-glass">
         <div className="obs-title-group">
-          <h2>📊 Grafana Cloud Observability & Telemetry</h2>
+          <h2>📊 {i18n.grafana_telemetry_title || 'Grafana Cloud Observability & Telemetry'}</h2>
           <p>
-            Real-time telemetry infrastructure powered by Prometheus, Tempo distributed tracing, Loki logs, and Grafana Cloud MCP Streamable HTTP transport.
+            {i18n.grafana_telemetry_desc || 'Real-time telemetry infrastructure powered by Prometheus, Tempo distributed tracing, Loki logs, and Grafana Cloud MCP Streamable HTTP transport.'}
           </p>
         </div>
         <div className="mcp-badge-pill">
           <span className="pulse-dot" aria-hidden="true"></span>
-          <span>Grafana MCP: Streamable HTTP Active</span>
+          <span>{i18n.status_active ? `Grafana MCP: Streamable HTTP ${i18n.status_active}` : 'Grafana MCP: Streamable HTTP Active'}</span>
         </div>
       </div>
 

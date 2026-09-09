@@ -1,16 +1,16 @@
 import React from 'react';
 
-export function AboutThiraiKuzhu() {
+export function AboutThiraiKuzhu({ i18n = {} }) {
   return (
     <div className="about-container">
       {/* Hero Banner */}
       <div className="about-hero-glass">
         <div className="hero-badge">🎬 Google Cloud AI & Gemini 2026 Hackathon</div>
         <h1>
-          Thirai Kuzhu AI <span className="tamil-accent">(திரை குழு AI)</span>
+          Thirai Kuzhu AI <span className="tamil-accent">({i18n.tamil_title || 'திரை குழு AI'})</span>
         </h1>
         <p className="hero-lead">
-          The World’s First Autonomous Multi-Agent Film Production Operating System and Incident Command Center. Built for Indian, Hollywood, and Global Epic Cinema.
+          {i18n.about_desc || 'The World’s First Autonomous Multi-Agent Film Production Operating System and Incident Command Center. Built for Indian, Hollywood, and Global Epic Cinema.'}
         </p>
       </div>
 

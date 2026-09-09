@@ -179,7 +179,7 @@ const ANIME_CHARACTERS = [
   }
 ];
 
-export function AnimationCharacterStudio() {
+export function AnimationCharacterStudio({ i18n = {} }) {
   const { currentPersona } = useAuth();
   const [selectedCharId, setSelectedCharId] = useState('CHAR-ANM-01');
   const [activeAngle, setActiveAngle] = useState('front');
@@ -190,10 +190,9 @@ export function AnimationCharacterStudio() {
 
   const selectedChar = ANIME_CHARACTERS.find((c) => c.id === selectedCharId) || ANIME_CHARACTERS[0];
 
-  const filteredCharacters = ANIME_CHARACTERS.filter((c) => {
-    if (selectedGenre === 'ALL') return true;
-    return c.genre.toLowerCase().includes(selectedGenre.toLowerCase());
-  });
+  const filteredCharacters = selectedGenre === 'ALL'
+    ? ANIME_CHARACTERS
+    : ANIME_CHARACTERS.filter((c) => c.genre.toLowerCase().includes(selectedGenre.toLowerCase()));
 
   const handleRunConsistencyCheck = () => {
     setIsVerifying(true);
@@ -232,9 +231,9 @@ export function AnimationCharacterStudio() {
       {/* Studio Header */}
       <div className="obs-header-glass">
         <div className="obs-title-group">
-          <h2>🎌 Anime &amp; Animation Character Vault</h2>
+          <h2>🎌 {i18n.animeVaultTitle || 'Anime & Animation Character Vault'}</h2>
           <p>
-            Curated character consistency &amp; model sheet inspection engine grounded in open-source datasets (Danbooru2024, AniList, AnimeFace, Open3D Cel-Mesh). Any crew persona can audit 24fps rigging, vocal timbre, and line fidelity.
+            {i18n.animeVaultDesc || 'Curated character consistency & model sheet inspection engine grounded in open-source datasets (Danbooru2024, AniList, AnimeFace, Open3D Cel-Mesh). Any crew persona can audit 24fps rigging, vocal timbre, and line fidelity.'}
           </p>
         </div>
         <div className="mcp-badge-pill">
@@ -245,7 +244,7 @@ export function AnimationCharacterStudio() {
 
       {/* Dataset Sources Strip */}
       <div className="dataset-sources-strip">
-        <span className="strip-title">Open Source Repositories Grounding:</span>
+        <span className="strip-title">{i18n.openDatasetsGrounding || 'Open Source Repositories Grounding:'}</span>
         <div className="sources-pills-row">
           {DATASET_SOURCES.map((ds) => (
             <div key={ds.id} className="dataset-badge-card" title={`${ds.focus} (${ds.license})`}>
@@ -259,7 +258,7 @@ export function AnimationCharacterStudio() {
       {/* Genre Filter & Character Selector Ribbon */}
       <div className="anime-character-ribbon">
         <div className="genre-filter-group">
-          <label htmlFor="genre-select" className="filter-label">Genre Filter:</label>
+          <label htmlFor="genre-select" className="filter-label">{i18n.genreFilter || 'Genre Filter:'}</label>
           <select
             id="genre-select"
             className="select-input genre-select"
@@ -403,10 +402,10 @@ export function AnimationCharacterStudio() {
               disabled={isVerifying}
               onClick={handleRunConsistencyCheck}
             >
-              {isVerifying ? 'Running 24fps Consistency Audit...' : '🔍 Run Character Consistency Audit'}
+              {isVerifying ? (i18n.verifyingAudit || 'Running 24fps Consistency Audit...') : (i18n.runAuditBtn || '🔍 Run Character Consistency Audit')}
             </button>
             <button className="btn-secondary" onClick={handleBindCharacter}>
-              📌 Bind Character to Active Scene Slate
+              {i18n.bindCharBtn || '📌 Bind Character to Active Scene Slate'}
             </button>
           </div>
 

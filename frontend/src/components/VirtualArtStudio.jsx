@@ -69,7 +69,7 @@ const CURATED_PROMPTS = [
   }
 ];
 
-export default function VirtualArtStudio() {
+export default function VirtualArtStudio({ i18n = {} }) {
   const { currentPersona } = useAuth();
   const [selectedModel, setSelectedModel] = useState('imagen-3');
   const [selectedWorkflow, setSelectedWorkflow] = useState('architecture');
@@ -122,10 +122,10 @@ export default function VirtualArtStudio() {
             <span style={{ fontSize: '2rem' }}>🎨</span>
             <div>
               <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '800', background: 'linear-gradient(135deg, #f59e0b, #ef4444)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Virtual Art Department &amp; Production Design Studio
+                {i18n.artDirectorTitle || 'Virtual Art Department & Production Design Studio'}
               </h2>
               <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#94a3b8' }}>
-                CAD-grade set blueprints, location matte paintings &amp; material shaders driven by Google Imagen 3 &amp; Nano Banana edge models
+                {i18n.artDirectorDesc || 'CAD-grade set blueprints, location matte paintings & material shaders driven by Google Imagen 3 & Nano Banana edge models'}
               </p>
             </div>
           </div>

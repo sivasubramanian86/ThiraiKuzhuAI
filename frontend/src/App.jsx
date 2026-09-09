@@ -22,7 +22,7 @@ import {
   applyMitigation,
   streamMission
 } from './services/api';
-import { getTranslations, SUPPORTED_LANGUAGES } from './i18n';
+import { getTranslations, isRTL, SUPPORTED_LANGUAGES } from './i18n';
 import { DEPT_ICONS } from './constants/departments';
 
 export function App() {
@@ -32,6 +32,11 @@ export function App() {
   // Localization & State
   const [language, setLanguage] = useState('en');
   const i18n = getTranslations(language);
+
+  useEffect(() => {
+    document.documentElement.dir = isRTL(language) ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
+  }, [language]);
 
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState('baahubali-3');
@@ -365,27 +370,27 @@ export function App() {
               />
             )}
 
-            {activeTab === 'crew_lounge' && <CrewPersonaLounge />}
+            {activeTab === 'crew_lounge' && <CrewPersonaLounge i18n={i18n} language={language} />}
 
-            {activeTab === 'anime_vault' && <AnimationCharacterStudio />}
+            {activeTab === 'anime_vault' && <AnimationCharacterStudio i18n={i18n} language={language} />}
 
-            {activeTab === 'art_director' && <VirtualArtStudio />}
+            {activeTab === 'art_director' && <VirtualArtStudio i18n={i18n} language={language} />}
 
-            {activeTab === 'sme_studio' && <DynamicSmeStudio />}
+            {activeTab === 'sme_studio' && <DynamicSmeStudio i18n={i18n} language={language} />}
 
-            {activeTab === 'antagonist_lab' && <AntagonistLab />}
+            {activeTab === 'antagonist_lab' && <AntagonistLab i18n={i18n} language={language} />}
 
-            {activeTab === 'multimodal_studio' && <MultiModalMediaStudio />}
+            {activeTab === 'multimodal_studio' && <MultiModalMediaStudio i18n={i18n} language={language} />}
 
-            {activeTab === 'content_shield' && <ContentShieldStudio />}
+            {activeTab === 'content_shield' && <ContentShieldStudio i18n={i18n} language={language} />}
 
-            {activeTab === 'observability' && <GrafanaObservability />}
+            {activeTab === 'observability' && <GrafanaObservability i18n={i18n} language={language} />}
 
-            {activeTab === 'faq_help' && <FAQHelp />}
+            {activeTab === 'faq_help' && <FAQHelp i18n={i18n} language={language} />}
 
-            {activeTab === 'about' && <AboutThiraiKuzhu />}
+            {activeTab === 'about' && <AboutThiraiKuzhu i18n={i18n} language={language} />}
 
-            {activeTab === 'settings' && <SettingsStudio />}
+            {activeTab === 'settings' && <SettingsStudio i18n={i18n} language={language} />}
           </AppShell>
         </div>
       </ThemeProvider>

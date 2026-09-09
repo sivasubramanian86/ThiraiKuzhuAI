@@ -81,15 +81,24 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi Cinema)' }
 ];
 
+import { SECTION_TRANSLATIONS } from './sections';
+
 /**
  * Retrieves translations dictionary for the given language code.
- * Falls back safely to English if language is not supported.
+ * Merges control room keys and universal section keys, falling back safely to English.
  * 
  * @param {string} langCode Target ISO language code.
  * @returns {Object} Localized dictionary.
  */
 export function getTranslations(langCode) {
-  return LOCALES[langCode] || LOCALES.en;
+  const baseLocale = LOCALES[langCode] || LOCALES.en;
+  const sectionLocale = SECTION_TRANSLATIONS[langCode] || SECTION_TRANSLATIONS.en;
+  return {
+    ...LOCALES.en,
+    ...SECTION_TRANSLATIONS.en,
+    ...baseLocale,
+    ...sectionLocale
+  };
 }
 
 /**
