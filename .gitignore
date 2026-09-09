@@ -22,6 +22,9 @@ MASTER_PHASE_ROADMAP.md
 *audio*
 *.mp3
 *.wav
+*.mp4
+*.webp
+*screenshot*
 scratch/
 DEMO_VIDEO_SCRIPT.md
 DEVPOST_SUBMISSION.md
