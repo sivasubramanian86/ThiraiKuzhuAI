@@ -66,7 +66,7 @@ export function CrewPersonaLounge({ i18n = {} }) {
     setDebateResult(null);
   };
 
-  const handleAssumeRole = (p) => {
+  const handleLoginAs = (p) => {
     loginAsCrewPersona(p);
     if (['A', 'B'].includes(p.band)) setCinemaTheme('director-noir');
     else if (['E', 'F'].includes(p.band)) setCinemaTheme('camera-tungsten');

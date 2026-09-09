@@ -217,4 +217,3 @@ async def test_mcp_client_offline_mode() -> None:
     )
     res = await client._post_mcp("tools/call", {"name": "query_prometheus"})
     assert res["result"]["status"] == "success"
-

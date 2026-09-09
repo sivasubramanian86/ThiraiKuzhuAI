@@ -3,20 +3,6 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { AuthModal } from './AuthModal';
 
-const NAV_ITEMS = [
-  { id: 'control_room', label: 'Control Room', icon: '🎬', badge: 'LIVE' },
-  { id: 'crew_lounge', label: 'Crew Lounge', icon: '👥', badge: '369' },
-  { id: 'anime_vault', label: 'Anime Vault', icon: '🎌', badge: 'OS Data' },
-  { id: 'art_director', label: 'Art Department', icon: '🎨', badge: 'Imagen 3' },
-  { id: 'sme_studio', label: 'Dynamic SME', icon: '🧬', badge: 'Sec 19' },
-  { id: 'antagonist_lab', label: 'Red-Team Lab', icon: '🛡️', badge: 'Chaos' },
-  { id: 'multimodal_studio', label: 'MultiModal Studio', icon: '👁️', badge: 'Veo/Lyria' },
-  { id: 'content_shield', label: 'IP & Content Shield', icon: '🔒', badge: 'SynthID' },
-  { id: 'observability', label: 'Grafana Telemetry', icon: '📊', badge: 'MCP' },
-  { id: 'faq_help', label: 'FAQ & Help', icon: '❓' },
-  { id: 'about', label: 'About', icon: 'ℹ️' },
-  { id: 'settings', label: 'Settings', icon: '⚙️' }
-];
 
 export function AppShell({
   activeTab,
